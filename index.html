@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CBT App — Computer Based Test</title>
 
-  <!-- KONFIGURASI TAILWIND: DARK MODE MANUAL (CLASS) -->
   <script>
     window.tailwind = window.tailwind || {};
     window.tailwind.config = window.tailwind.config || {};
@@ -23,177 +22,55 @@
   <style>
     :root { --primary: #2563eb; --primary-dark: #1d4ed8; }
     * { box-sizing: border-box; }
-
-    /* ===== FIX ICON UKURAN: cegah icon jumbo ===== */
-    svg {
-      width: 1em;
-      height: 1em;
-      flex-shrink: 0;
-    }
+    svg { width: 1em; height: 1em; flex-shrink: 0; }
     .badge svg { width: 10px; height: 10px; flex-shrink: 0; }
     .tab-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
-    /* Span dengan width/height eksplisit (logo admin header & result) → SVG isi penuh */
-    span[style*="display: inline-flex"][style*="width"][style*="height"] > svg {
-      width: 100%;
-      height: 100%;
-    }
-
-    html, body {
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      margin: 0;
-      padding: 0;
-    }
+    span[style*="display: inline-flex"][style*="width"][style*="height"] > svg { width: 100%; height: 100%; }
+    html, body { font-family: 'Inter', system-ui, -apple-system, sans-serif; -webkit-font-smoothing: antialiased; margin: 0; padding: 0; }
     h1, h2, h3, h4, h5, h6 { font-family: 'Plus Jakarta Sans', sans-serif; letter-spacing: -0.02em; }
     body { background: #f1f5f9; color: #0f172a; min-height: 100vh; }
     .hidden { display: none !important; }
 
-    /* ELEGANT BACKGROUND */
     .elegant-bg {
       background:
         radial-gradient(circle at 15% 20%, rgba(99, 102, 241, 0.35), transparent 45%),
         radial-gradient(circle at 85% 80%, rgba(14, 165, 233, 0.35), transparent 45%),
         radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.2), transparent 60%),
         linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #1e3a8a 100%);
-      position: relative;
-      overflow: hidden;
+      position: relative; overflow: hidden;
     }
     .elegant-bg::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-      background-size: 40px 40px;
-      pointer-events: none;
+      content: ''; position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 40px 40px; pointer-events: none;
     }
-    .floating-orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(60px);
-      opacity: 0.5;
-      animation: float 8s ease-in-out infinite;
-      pointer-events: none;
-    }
-    @keyframes float {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      50% { transform: translate(30px, -30px) scale(1.1); }
-    }
+    .floating-orb { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.5; animation: float 8s ease-in-out infinite; pointer-events: none; }
+    @keyframes float { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(30px,-30px) scale(1.1); } }
 
-    /* GLASS CARD */
-    .glass-card {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.4), 0 8px 24px -8px rgba(0, 0, 0, 0.2);
-    }
-    .dark .glass-card { background: rgba(30, 41, 59, 0.85); border: 1px solid rgba(255, 255, 255, 0.08); }
+    .glass-card { background: rgba(255,255,255,0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.3); box-shadow: 0 20px 50px -12px rgba(0,0,0,0.4), 0 8px 24px -8px rgba(0,0,0,0.2); }
+    .dark .glass-card { background: rgba(30,41,59,0.85); border: 1px solid rgba(255,255,255,0.08); }
 
-    /* SIDEBAR */
-    .sidebar {
-      width: 270px;
-      height: 100vh;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 60;
-      transform: translateX(-100%);
-      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-      overflow-y: auto;
-      background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
-      border-right: 1px solid rgba(255, 255, 255, 0.06);
-      box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
-    }
+    .sidebar { width: 270px; height: 100vh; position: fixed; top: 0; left: 0; z-index: 60; transform: translateX(-100%); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1); overflow-y: auto; background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%); border-right: 1px solid rgba(255,255,255,0.06); box-shadow: 4px 0 24px rgba(0,0,0,0.15); }
     .sidebar.open { transform: translateX(0); }
-    .sidebar-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 10px 16px;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: all 0.25s;
-      color: rgba(255, 255, 255, 0.65);
-      font-weight: 500;
-      font-size: 13px;
-      position: relative;
-    }
-    .sidebar-item::before {
-      content: '';
-      position: absolute;
-      left: 0; top: 0; bottom: 0;
-      width: 3px;
-      background: linear-gradient(180deg, #3b82f6, #8b5cf6);
-      transform: scaleY(0);
-      transition: transform 0.3s;
-      border-radius: 0 4px 4px 0;
-    }
-    .sidebar-item:hover { background: rgba(255, 255, 255, 0.06); color: white; }
-    .sidebar-item.active {
-      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.15));
-      color: white;
-      font-weight: 600;
-    }
+    .sidebar-item { display: flex; align-items: center; gap: 12px; padding: 10px 16px; border-radius: 10px; cursor: pointer; transition: all 0.25s; color: rgba(255,255,255,0.65); font-weight: 500; font-size: 13px; position: relative; }
+    .sidebar-item::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: linear-gradient(180deg,#3b82f6,#8b5cf6); transform: scaleY(0); transition: transform 0.3s; border-radius: 0 4px 4px 0; }
+    .sidebar-item:hover { background: rgba(255,255,255,0.06); color: white; }
+    .sidebar-item.active { background: linear-gradient(135deg, rgba(59,130,246,0.2), rgba(139,92,246,0.15)); color: white; font-weight: 600; }
     .sidebar-item.active::before { transform: scaleY(1); }
-    .sidebar-item .icon-wrap {
-      width: 30px; height: 30px;
-      display: flex; align-items: center; justify-content: center;
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.05);
-      transition: all 0.25s;
-    }
-    .sidebar-item.active .icon-wrap {
-      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
-    }
+    .sidebar-item .icon-wrap { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 8px; background: rgba(255,255,255,0.05); transition: all 0.25s; }
+    .sidebar-item.active .icon-wrap { background: linear-gradient(135deg,#3b82f6,#8b5cf6); box-shadow: 0 4px 12px rgba(59,130,246,0.4); }
     .sidebar-item svg { width: 16px; height: 16px; }
-    .sidebar-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(4px);
-      z-index: 55;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s;
-    }
+    .sidebar-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 55; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
     .sidebar-overlay.show { opacity: 1; pointer-events: auto; }
 
-    /* ADMIN HEADER - LEBIH KECIL */
-    .admin-header {
-      position: sticky;
-      top: 0;
-      z-index: 40;
-      background: rgba(248, 250, 252, 0.8);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid #e2e8f0;
-      padding: 6px 16px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .dark .admin-header { background: rgba(11, 17, 32, 0.8); border-color: #1e293b; }
-    .topbar-btn {
-      width: 28px; height: 28px;
-      border-radius: 8px;
-      display: inline-flex; align-items: center; justify-content: center;
-      background: #ffffff;
-      color: #475569;
-      cursor: pointer;
-      transition: all 0.2s;
-      border: 1.5px solid #e2e8f0;
-    }
+    .admin-header { position: sticky; top: 0; z-index: 40; background: rgba(248,250,252,0.8); backdrop-filter: blur(12px); border-bottom: 1px solid #e2e8f0; padding: 6px 16px; display: flex; align-items: center; gap: 10px; }
+    .dark .admin-header { background: rgba(11,17,32,0.8); border-color: #1e293b; }
+    .topbar-btn { width: 28px; height: 28px; border-radius: 8px; display: inline-flex; align-items: center; justify-content: center; background: #ffffff; color: #475569; cursor: pointer; transition: all 0.2s; border: 1.5px solid #e2e8f0; }
     .topbar-btn:hover { background: #f1f5f9; border-color: #cbd5e1; }
     .topbar-btn svg { width: 16px; height: 16px; }
     .dark .topbar-btn { background: #1e293b; color: #e2e8f0; border-color: #334155; }
-    .dark .topbar-btn:hover { background: #334155; }
-
     .main-content { padding: 20px; max-width: 1400px; margin: 0 auto; }
 
-    /* DARK MODE */
     .dark { background: #0b1120; color: #e2e8f0; }
     .dark .bg-white { background: #1e293b !important; }
     .dark .bg-gray-50 { background: #0f172a !important; }
@@ -204,166 +81,62 @@
     .dark .text-gray-800 { color: #f1f5f9 !important; }
     .dark .bg-gray-100 { background: #1e293b !important; }
 
-    /* INPUTS */
-    .input-modern {
-      width: 100%;
-      padding: 8px 12px;
-      border: 1.5px solid #e2e8f0;
-      border-radius: 8px;
-      font-size: 13px;
-      font-family: 'Inter', sans-serif;
-      transition: all 0.2s;
-      background: #fff;
-      color: #0f172a;
-    }
-    .input-modern:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1); }
+    .input-modern { width: 100%; padding: 8px 12px; border: 1.5px solid #e2e8f0; border-radius: 8px; font-size: 13px; font-family: 'Inter', sans-serif; transition: all 0.2s; background: #fff; color: #0f172a; }
+    .input-modern:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 4px rgba(59,130,246,0.1); }
     .dark .input-modern { background: #0f172a; border-color: #334155; color: #f1f5f9; }
-    .dark .input-modern:focus { border-color: #3b82f6; }
 
-    /* BUTTONS */
-    .btn-primary {
-      background: linear-gradient(135deg, #3b82f6, #6366f1);
-      color: white; padding: 8px 16px; border-radius: 8px;
-      font-weight: 600; font-size: 13px;
-      transition: all 0.25s;
-      box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
-      border: none; cursor: pointer;
-      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-    }
-    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(59, 130, 246, 0.45); }
-    .btn-primary svg { width: 16px; height: 16px; }
-
-    .btn-success {
-      background: linear-gradient(135deg, #10b981, #059669);
-      color: white; padding: 8px 16px; border-radius: 8px;
-      font-weight: 600; font-size: 13px;
-      transition: all 0.25s;
-      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
-      border: none; cursor: pointer;
-      display: inline-flex; align-items: center; gap: 6px;
-    }
-    .btn-success:hover { transform: translateY(-1px); }
-    .btn-success svg { width: 16px; height: 16px; }
-
-    .btn-danger {
-      background: linear-gradient(135deg, #ef4444, #dc2626);
-      color: white; padding: 8px 16px; border-radius: 8px;
-      font-weight: 600; font-size: 13px;
-      transition: all 0.25s;
-      box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
-      border: none; cursor: pointer;
-      display: inline-flex; align-items: center; gap: 6px;
-    }
-    .btn-danger svg { width: 16px; height: 16px; }
-
-    .btn-ghost {
-      background: rgba(255, 255, 255, 0.08);
-      color: #475569; padding: 6px 12px; border-radius: 8px;
-      font-weight: 600; font-size: 12px;
-      transition: all 0.2s;
-      border: 1.5px solid #e2e8f0; cursor: pointer;
-      display: inline-flex; align-items: center; gap: 4px;
-    }
+    .btn-primary { background: linear-gradient(135deg,#3b82f6,#6366f1); color: white; padding: 8px 16px; border-radius: 8px; font-weight: 600; font-size: 13px; transition: all 0.25s; box-shadow: 0 4px 14px rgba(59,130,246,0.35); border: none; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(59,130,246,0.45); }
+    .btn-success { background: linear-gradient(135deg,#10b981,#059669); color: white; padding: 8px 16px; border-radius: 8px; font-weight: 600; font-size: 13px; transition: all 0.25s; box-shadow: 0 4px 14px rgba(16,185,129,0.35); border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+    .btn-danger { background: linear-gradient(135deg,#ef4444,#dc2626); color: white; padding: 8px 16px; border-radius: 8px; font-weight: 600; font-size: 13px; transition: all 0.25s; box-shadow: 0 4px 14px rgba(239,68,68,0.35); border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+    .btn-ghost { background: rgba(255,255,255,0.08); color: #475569; padding: 6px 12px; border-radius: 8px; font-weight: 600; font-size: 12px; transition: all 0.2s; border: 1.5px solid #e2e8f0; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
     .btn-ghost:hover { background: #f1f5f9; }
     .dark .btn-ghost { color: #cbd5e1; border-color: #334155; }
-    .dark .btn-ghost:hover { background: #1e293b; }
-    .btn-ghost svg { width: 14px; height: 14px; }
 
-    /* OPTIONS */
-    .option-card {
-      cursor: pointer; padding: 10px 12px;
-      border: 1.5px solid #e2e8f0; border-radius: 10px;
-      transition: all 0.2s; display: flex; align-items: center; gap: 10px;
-      background: #fff; color: #0f172a;
-    }
+    .option-card { cursor: pointer; padding: 10px 12px; border: 1.5px solid #e2e8f0; border-radius: 10px; transition: all 0.2s; display: flex; align-items: center; gap: 10px; background: #fff; color: #0f172a; }
     .option-card:hover { border-color: #93c5fd; background: #f8fafc; }
-    .option-selected {
-      border-color: #3b82f6 !important;
-      background: linear-gradient(135deg, #eff6ff, #dbeafe) !important;
-      box-shadow: 0 4px 14px rgba(59, 130, 246, 0.15);
-    }
+    .option-selected { border-color: #3b82f6 !important; background: linear-gradient(135deg,#eff6ff,#dbeafe) !important; box-shadow: 0 4px 14px rgba(59,130,246,0.15); }
     .dark .option-card { background: #1e293b; border-color: #334155; color: #e2e8f0; }
-    .dark .option-card:hover { border-color: #3b82f6; background: #0f172a; }
-    .dark .option-selected { border-color: #3b82f6 !important; background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(99, 102, 241, 0.1)) !important; }
-    
-    .option-letter {
-      width: 26px; height: 26px; border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 700; font-size: 12px; background: #f1f5f9; color: #64748b;
-      flex-shrink: 0; transition: all 0.2s;
-    }
-    .option-selected .option-letter {
-      background: linear-gradient(135deg, #3b82f6, #6366f1); color: white;
-      box-shadow: 0 4px 10px rgba(59, 130, 246, 0.4);
-    }
+    .dark .option-selected { border-color: #3b82f6 !important; background: linear-gradient(135deg,rgba(59,130,246,0.15),rgba(99,102,241,0.1)) !important; }
+    .option-letter { width: 26px; height: 26px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; background: #f1f5f9; color: #64748b; flex-shrink: 0; transition: all 0.2s; }
+    .option-selected .option-letter { background: linear-gradient(135deg,#3b82f6,#6366f1); color: white; box-shadow: 0 4px 10px rgba(59,130,246,0.4); }
     .dark .option-letter { background: #334155; color: #cbd5e1; }
 
-    .nav-btn {
-      width: 34px; height: 34px; border-radius: 8px;
-      border: 1.5px solid #e2e8f0; background: #fff; font-weight: 700;
-      cursor: pointer; transition: all 0.2s; font-size: 12px;
-      font-family: 'Plus Jakarta Sans', sans-serif; color: #0f172a;
-    }
+    .nav-btn { width: 34px; height: 34px; border-radius: 8px; border: 1.5px solid #e2e8f0; background: #fff; font-weight: 700; cursor: pointer; transition: all 0.2s; font-size: 12px; font-family: 'Plus Jakarta Sans', sans-serif; color: #0f172a; }
     .nav-btn:hover { border-color: #93c5fd; }
-    .nav-btn.active { background: linear-gradient(135deg, #3b82f6, #6366f1); color: white; border-color: transparent; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4); }
-    .nav-btn.answered { background: linear-gradient(135deg, #d1fae5, #a7f3d0); color: #059669; border-color: #6ee7b7; }
+    .nav-btn.active { background: linear-gradient(135deg,#3b82f6,#6366f1); color: white; border-color: transparent; box-shadow: 0 4px 12px rgba(59,130,246,0.4); }
+    .nav-btn.answered { background: linear-gradient(135deg,#d1fae5,#a7f3d0); color: #059669; border-color: #6ee7b7; }
     .dark .nav-btn { background: #1e293b; border-color: #334155; color: #e2e8f0; }
-    .dark .nav-btn.active { background: linear-gradient(135deg, #3b82f6, #6366f1); color: white; border-color: transparent; }
-    .dark .nav-btn.answered { background: rgba(16, 185, 129, 0.15); color: #6ee7b7; border-color: #10b981; }
+    .dark .nav-btn.active { background: linear-gradient(135deg,#3b82f6,#6366f1); color: white; }
+    .dark .nav-btn.answered { background: rgba(16,185,129,0.15); color: #6ee7b7; border-color: #10b981; }
 
-    /* TIMER PILL - LEBIH KECIL */
-    .timer-pill {
-      background: linear-gradient(135deg, rgba(239, 68, 68, 0.95), rgba(220, 38, 38, 0.95));
-      backdrop-filter: blur(10px); padding: 2px 10px; border-radius: 999px;
-      font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 12px; color: white;
-      display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 3px 10px rgba(239, 68, 68, 0.35);
-    }
+    .timer-pill { background: linear-gradient(135deg,rgba(239,68,68,0.95),rgba(220,38,38,0.95)); backdrop-filter: blur(10px); padding: 2px 10px; border-radius: 999px; font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 12px; color: white; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 3px 10px rgba(239,68,68,0.35); }
     .timer-pill svg { width: 14px; height: 14px; }
 
-    /* LOGIN LOGO - LEBIH KECIL */
-    .login-logo {
-      width: 52px; height: 52px; border-radius: 14px;
-      background: linear-gradient(135deg, #3b82f6, #6366f1, #8b5cf6);
-      display: flex; align-items: center; justify-content: center; margin: 0 auto 10px;
-      box-shadow: 0 12px 30px rgba(59, 130, 246, 0.45); position: relative;
-    }
-    .login-logo::after {
-      content: ''; position: absolute; inset: -2px; border-radius: 16px;
-      background: linear-gradient(135deg, #3b82f6, #8b5cf6); z-index: -1; filter: blur(12px); opacity: 0.6;
-    }
+    .login-logo { width: 52px; height: 52px; border-radius: 14px; background: linear-gradient(135deg,#3b82f6,#6366f1,#8b5cf6); display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; box-shadow: 0 12px 30px rgba(59,130,246,0.45); position: relative; }
+    .login-logo::after { content: ''; position: absolute; inset: -2px; border-radius: 16px; background: linear-gradient(135deg,#3b82f6,#8b5cf6); z-index: -1; filter: blur(12px); opacity: 0.6; }
     .login-logo svg { width: 26px; height: 26px; color: white; }
     .login-lock-icon { display: inline-flex; width: 14px; height: 14px; vertical-align: middle; }
-    .login-lock-icon svg { width: 14px; height: 14px; }
 
-    /* STAT CARD */
-    .stat-card {
-      background: #fff; border-radius: 12px; padding: 16px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 10px 30px -10px rgba(0,0,0,0.1);
-      border: 1px solid #f1f5f9; transition: all 0.3s; position: relative; overflow: hidden;
-    }
+    .stat-card { background: #fff; border-radius: 12px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 10px 30px -10px rgba(0,0,0,0.1); border: 1px solid #f1f5f9; transition: all 0.3s; position: relative; overflow: hidden; }
     .stat-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--accent, #3b82f6); }
     .stat-card:hover { transform: translateY(-2px); }
     .dark .stat-card { background: #1e293b; border-color: #334155; }
     .stat-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 6px; background: var(--icon-bg, #dbeafe); color: var(--accent, #3b82f6); }
     .stat-icon svg { width: 18px; height: 18px; }
 
-    /* BADGE */
-    .badge {
-      display: inline-flex; align-items: center; gap: 3px; padding: 2px 8px;
-      border-radius: 999px; font-size: 9px; font-weight: 600; letter-spacing: 0.02em;
-    }
+    .badge { display: inline-flex; align-items: center; gap: 3px; padding: 2px 8px; border-radius: 999px; font-size: 9px; font-weight: 600; letter-spacing: 0.02em; }
     .badge-blue { background: #dbeafe; color: #1d4ed8; }
     .badge-green { background: #d1fae5; color: #047857; }
     .badge-red { background: #fee2e2; color: #b91c1c; }
     .badge-yellow { background: #fef3c7; color: #b45309; }
     .badge-purple { background: #ede9fe; color: #6d28d9; }
-    .dark .badge-blue { background: rgba(59, 130, 246, 0.15); color: #93c5fd; }
-    .dark .badge-green { background: rgba(16, 185, 129, 0.15); color: #6ee7b7; }
-    .dark .badge-red { background: rgba(239, 68, 68, 0.15); color: #fca5a5; }
-    .dark .badge-yellow { background: rgba(245, 158, 11, 0.15); color: #fcd34d; }
-    .dark .badge-purple { background: rgba(139, 92, 246, 0.15); color: #c4b5fd; }
+    .dark .badge-blue { background: rgba(59,130,246,0.15); color: #93c5fd; }
+    .dark .badge-green { background: rgba(16,185,129,0.15); color: #6ee7b7; }
+    .dark .badge-red { background: rgba(239,68,68,0.15); color: #fca5a5; }
+    .dark .badge-yellow { background: rgba(245,158,11,0.15); color: #fcd34d; }
+    .dark .badge-purple { background: rgba(139,92,246,0.15); color: #c4b5fd; }
 
-    /* IMAGE & VIDEO PREVIEW */
     .image-preview { max-width: 160px; max-height: 120px; object-fit: cover; border-radius: 10px; border: 1.5px solid #e2e8f0; }
     .option-preview { max-width: 60px; max-height: 50px; object-fit: cover; border-radius: 8px; border: 1.5px solid #e2e8f0; }
     .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px; }
@@ -376,7 +149,7 @@
     .option-image-upload { display: flex; align-items: center; gap: 4px; }
     .option-image-upload input[type="file"] { font-size: 10px; max-width: 80px; }
     .option-image-upload .preview-thumb { width: 32px; height: 32px; object-fit: cover; border-radius: 6px; border: 1.5px solid #e2e8f0; }
-    .dark .option-image-upload .preview-thumb { border-color: #475569; }
+
     .color-option { width: 32px; height: 32px; border-radius: 50%; border: 3px solid transparent; cursor: pointer; transition: all 0.25s; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
     .color-option:hover { transform: scale(1.1); }
     .color-option.active { border-color: #1e293b; box-shadow: 0 0 0 2px white, 0 4px 12px rgba(0,0,0,0.25); }
@@ -385,45 +158,30 @@
     .toast { position: fixed; top: 20px; right: 20px; z-index: 9999; padding: 10px 16px; border-radius: 8px; background: #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 8px; font-weight: 500; animation: fadeInUp 0.3s ease-out; font-size: 12px; }
     @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     .animate-fadeInUp { animation: fadeInUp 0.5s ease-out; }
-    @keyframes pulse-soft { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+    @keyframes pulse-soft { 0%,100% { opacity: 1; } 50% { opacity: 0.7; } }
     .animate-pulse-soft { animation: pulse-soft 2s ease-in-out infinite; }
 
-    /* FOOTER */
-    .footer-cbt {
-      border-top: 1px solid #e2e8f0;
-      padding: 8px 16px;
-      text-align: center;
-      font-size: 10px;
-      color: #94a3b8;
-      background: rgba(255, 255, 255, 0.5);
-      backdrop-filter: blur(8px);
-    }
-    .dark .footer-cbt { background: rgba(15, 23, 42, 0.5); border-color: #334155; color: #64748b; }
+    .footer-cbt { border-top: 1px solid #e2e8f0; padding: 8px 16px; text-align: center; font-size: 10px; color: #94a3b8; background: rgba(255,255,255,0.5); backdrop-filter: blur(8px); }
+    .dark .footer-cbt { background: rgba(15,23,42,0.5); border-color: #334155; color: #64748b; }
     .footer-cbt a { color: #3b82f6; text-decoration: none; }
-    .footer-cbt a:hover { text-decoration: underline; }
 
-    /* TABS */
-    .tab-btn {
-      padding: 6px 14px;
-      border-radius: 8px;
-      font-size: 12px;
-      font-weight: 600;
-      transition: all 0.2s;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      cursor: pointer;
-      background: rgba(255, 255, 255, 0.03);
-      color: #94a3b8;
-    }
-    .tab-btn.active {
-      background: linear-gradient(135deg, #3b82f6, #6366f1);
-      color: white;
-      border-color: transparent;
-    }
-    .tab-btn:hover { background: rgba(255, 255, 255, 0.06); }
+    .tab-btn { padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; transition: all 0.2s; border: 1px solid rgba(255,255,255,0.05); cursor: pointer; background: rgba(255,255,255,0.03); color: #94a3b8; }
+    .tab-btn.active { background: linear-gradient(135deg,#3b82f6,#6366f1); color: white; border-color: transparent; }
+    .tab-btn:hover { background: rgba(255,255,255,0.06); }
     .tab-content { display: none; }
     .tab-content.active { display: block; }
-    .dark .tab-btn { color: #94a3b8; }
-    .dark .tab-btn.active { color: white; }
+
+    .token-input { text-align: center; letter-spacing: 0.3em; font-weight: 700; font-size: 16px; text-transform: uppercase; font-family: 'Plus Jakarta Sans', monospace; }
+    .admin-badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 999px; background: linear-gradient(135deg,#f59e0b,#d97706); color: white; font-size: 10px; font-weight: 700; }
+
+    .table-modern { width: 100%; border-collapse: collapse; }
+    .table-modern th { padding: 6px 8px; font-size: 10px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid #e2e8f0; text-align: left; }
+    .table-modern td { padding: 8px; font-size: 12px; border-bottom: 1px solid #f1f5f9; color: #0f172a; }
+    .dark .table-modern th { color: #94a3b8; border-color: #334155; }
+    .dark .table-modern td { color: #e2e8f0; border-color: #1e293b; }
+
+    .excel-template { background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 8px; padding: 12px; font-size: 11px; font-family: monospace; overflow-x: auto; white-space: pre; }
+    .drag-over { border: 3px dashed #3b82f6 !important; background: #eff6ff !important; }
   </style>
 </head>
 <body>
@@ -433,14 +191,19 @@
 
 <script>
 // ==========================================
-// SUPABASE
+// SUPABASE — KEY dari index (3) yang sudah fix
 // ==========================================
 const SUPABASE_URL = "https://jdjdjtmprrkqyfetiqav.supabase.co";
-const SUPABASE_KEY = "sb_publishable_IgTlYqF3N9mSt1QJHtTATw_XBZZ9szu";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkamRqdG1wcnJrcXlmZXRpcWF2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUwMjEyMjMsImV4cCI6MjA5MDU5NzIyM30.sPrxv4iGbU2SecxkTSmYuIYdpzqSI-s0hf25P1BLfdc";
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // ==========================================
-// ICONS (Lucide)
+// ADMIN CREDENTIALS — ganti di produksi!
+// ==========================================
+const ADMIN_CREDENTIALS = { username: 'cbtadmin', password: '4dm1ncbt' };
+
+// ==========================================
+// ICONS
 // ==========================================
 const ICONS = {
   penTool: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19 7 14 9 9 14 7 19 9 12 15Z"/><path d="M5 21 9 17"/></svg>',
@@ -471,8 +234,9 @@ const ICONS = {
   trophy: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>',
   eye: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>',
   lock: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>',
-  youtube: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.56 49.56 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></svg>',
-  image: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>'
+  image: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>',
+  key: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/></svg>',
+  shield: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/></svg>'
 };
 
 // ==========================================
@@ -480,6 +244,7 @@ const ICONS = {
 // ==========================================
 let state = {
   view: 'login',
+  examList: [],
   student: { name: '', school: '', branch: '' },
   exam: null,
   currentIndex: 0,
@@ -505,7 +270,10 @@ let state = {
     primaryColor: '#2563eb'
   },
   chartInstance: null,
-  excelData: []
+  excelData: [],
+  adminAuthed: sessionStorage.getItem('adminAuthed') === 'true',
+  editingExamId: null,
+  editingQuestionIndex: null
 };
 
 const app = document.getElementById('app');
@@ -525,9 +293,18 @@ function showToast(message, type = 'info') {
 }
 
 // ==========================================
-// HASH ROUTING
+// HASH ROUTING (dengan Admin Login)
 // ==========================================
-function checkHash() { if (window.location.hash === '#admin') { goToAdmin(); } }
+function checkHash() {
+  if (window.location.hash === '#admin') {
+    if (state.adminAuthed) {
+      goToAdmin();
+    } else {
+      state.view = 'admin_login';
+      render();
+    }
+  }
+}
 window.addEventListener('hashchange', checkHash);
 
 // ==========================================
@@ -538,6 +315,7 @@ function render() {
   else document.documentElement.classList.remove('dark');
   switch(state.view) {
     case 'login': renderLogin(); break;
+    case 'admin_login': renderAdminLogin(); break;
     case 'student': renderStudent(); break;
     case 'admin': renderAdminLayout(); break;
     case 'result': renderResult(); break;
@@ -547,62 +325,42 @@ function render() {
 }
 
 // ==========================================
-// SIDEBAR
+// LOGIN SISWA — Query Supabase + Token
 // ==========================================
-function toggleSidebar() {
-  state.isSidebarOpen = !state.isSidebarOpen;
-  const sidebar = document.querySelector('.sidebar');
-  const overlay = document.querySelector('.sidebar-overlay');
-  if (sidebar) sidebar.classList.toggle('open', state.isSidebarOpen);
-  if (overlay) overlay.classList.toggle('show', state.isSidebarOpen);
-}
-function closeSidebar() {
-  state.isSidebarOpen = false;
-  const sidebar = document.querySelector('.sidebar');
-  const overlay = document.querySelector('.sidebar-overlay');
-  if (sidebar) sidebar.classList.remove('open');
-  if (overlay) overlay.classList.remove('show');
-}
-function goToAdminMenu(menu) {
-  state.adminMenu = menu;
-  state.isSidebarOpen = false;
-  render();
-}
+async function renderLogin() {
+  app.innerHTML = `
+    <div class="elegant-bg min-h-screen flex items-center justify-center p-4">
+      <div class="glass-card rounded-2xl p-6 w-full max-w-md">
+        <div class="text-center py-8">
+          <div class="login-logo mx-auto">${ICONS.graduationCap}</div>
+          <p class="text-gray-500 text-sm mt-3">⏳ Memuat daftar ujian...</p>
+        </div>
+      </div>
+    </div>
+  `;
 
-// ==========================================
-// HELPER: DETEKSI LINK GAMBAR & YOUTUBE
-// ==========================================
-function detectMediaLinks(text) {
-  if (!text) return { type: 'text', original: text };
-  const youtubeRegex = /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\?]+)/;
-  const match = text.match(youtubeRegex);
-  if (match) {
-    return { type: 'video', embed: `https://www.youtube.com/embed/${match[1]}`, original: text };
+  let examList = [];
+  let dbError = null;
+  try {
+    const { data, error } = await sb
+      .from('question_banks')
+      .select('id, judul_tes, mapel, kelas, tipe_tes, token')
+      .order('id', { ascending: false });
+    if (error) throw error;
+    examList = data || [];
+    state.examList = examList;
+    console.log('✅ Ujian loaded:', examList.length);
+  } catch (err) {
+    dbError = err.message;
+    console.error('❌ Gagal load ujian:', err);
   }
-  const imageRegex = /(https?:\/\/[^\s]+\.(?:jpg|jpeg|png|gif|webp|svg))/i;
-  const imgMatch = text.match(imageRegex);
-  if (imgMatch) {
-    return { type: 'image', url: imgMatch[1], original: text };
-  }
-  return { type: 'text', original: text };
-}
 
-function renderMediaContent(text) {
-  if (!text) return text;
-  const detected = detectMediaLinks(text);
-  if (detected.type === 'video') {
-    return `<div class="video-container"><iframe src="${detected.embed}" allowfullscreen loading="lazy"></iframe></div>`;
-  } else if (detected.type === 'image') {
-    return `<img src="${detected.url}" class="image-preview" alt="Gambar" loading="lazy" />`;
-  }
-  return text;
-}
+  const optionsHTML = examList.length > 0
+    ? examList.map(e => `<option value="${e.judul_tes}" data-token="${e.token || ''}">${e.judul_tes}${e.token ? ' 🔒' : ''}</option>`).join('')
+    : '<option value="">-- Belum ada ujian tersedia --</option>';
 
-// ==========================================
-// LOGIN
-// ==========================================
-function renderLogin() {
   const isFromAdmin = sessionStorage.getItem('fromAdmin') === 'true';
+
   app.innerHTML = `
     <div class="elegant-bg min-h-screen flex items-center justify-center p-4 relative">
       <div class="floating-orb" style="width: 280px; height: 280px; background: #6366f1; top: 10%; left: 10%;"></div>
@@ -615,9 +373,18 @@ function renderLogin() {
           `}
           <h1 class="text-xl font-extrabold text-gray-800 dark:text-white">CBT Platform</h1>
           <p class="text-[10px] text-gray-500 dark:text-gray-400 mt-0.5">${state.settings.schoolName}</p>
+          ${dbError ? `<p class="text-[9px] text-red-500 mt-1">⚠️ DB Error: ${dbError}</p>` : ''}
         </div>
 
         <div class="space-y-2.5">
+          <div>
+            <label class="block text-[10px] font-semibold text-gray-700 dark:text-gray-300 mb-0.5 flex items-center gap-1">
+              ${ICONS.key} Token Ujian <span class="text-red-500">*</span>
+            </label>
+            <input id="login-token" type="text" class="input-modern token-input" placeholder="XXXX-XXXX" maxlength="20" />
+            <p class="text-[9px] text-gray-500 mt-1">Token diberikan oleh pengawas ujian</p>
+          </div>
+
           <div>
             <label class="block text-[10px] font-semibold text-gray-700 dark:text-gray-300 mb-0.5">Nama Lengkap <span class="text-red-500">*</span></label>
             <input id="login-name" type="text" class="input-modern" placeholder="Masukkan nama lengkap Anda" />
@@ -636,14 +403,14 @@ function renderLogin() {
 
           <div>
             <label class="block text-[10px] font-semibold text-gray-700 dark:text-gray-300 mb-0.5">Pilih Ujian</label>
-            <select id="login-exam" class="input-modern">
-              <option value="Bahasa Inggris 11 SMA S1 (PAS)">Bahasa Inggris 11 SMA S1 (PAS)</option>
-              <option value="Matematika 12 SMA S2 (UH)">Matematika 12 SMA S2 (UH)</option>
-              <option value="Fisika 10 SMA S1 (PTS)">Fisika 10 SMA S1 (PTS)</option>
+            <select id="login-exam" class="input-modern" ${examList.length === 0 ? 'disabled' : ''}>
+              ${optionsHTML}
             </select>
           </div>
 
-          <button onclick="handleLogin()" class="btn-primary w-full text-sm">${ICONS.send} Mulai Ujian</button>
+          <button onclick="handleLogin()" class="btn-primary w-full text-sm" ${examList.length === 0 ? 'disabled style="opacity:0.5;cursor:not-allowed;"' : ''}>
+            ${ICONS.send} Mulai Ujian
+          </button>
 
           ${isFromAdmin ? `
             <button onclick="backToAdminFromLogin()" class="btn-ghost w-full text-center">${ICONS.arrowLeft} Kembali ke Admin</button>
@@ -659,11 +426,74 @@ function renderLogin() {
   `;
 }
 
-function backToAdminFromLogin() { sessionStorage.removeItem('fromAdmin'); goToAdmin(); }
+function backToAdminFromLogin() {
+  sessionStorage.removeItem('fromAdmin');
+  goToAdmin();
+}
 
 // ==========================================
-// GO TO ADMIN
+// ADMIN LOGIN FORM (bukan langsung masuk)
 // ==========================================
+function renderAdminLogin() {
+  app.innerHTML = `
+    <div class="elegant-bg min-h-screen flex items-center justify-center p-4 relative">
+      <div class="floating-orb" style="width: 280px; height: 280px; background: #f59e0b; top: 10%; left: 10%;"></div>
+      <div class="floating-orb" style="width: 220px; height: 220px; background: #ef4444; bottom: 10%; right: 15%; animation-delay: 2s;"></div>
+
+      <div class="glass-card rounded-2xl p-6 w-full max-w-sm relative z-10 animate-fadeInUp">
+        <div class="text-center mb-4">
+          <div class="w-12 h-12 mx-auto rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center shadow-lg mb-2">
+            <span class="text-white" style="display:inline-flex;width:24px;height:24px;">${ICONS.shield}</span>
+          </div>
+          <h1 class="text-xl font-extrabold text-gray-800 dark:text-white">Admin Login</h1>
+          <p class="text-[10px] text-gray-500 dark:text-gray-400 mt-0.5">Akses terbatas untuk pengelola CBT</p>
+        </div>
+
+        <div class="space-y-2.5">
+          <div>
+            <label class="block text-[10px] font-semibold text-gray-700 dark:text-gray-300 mb-0.5">Username</label>
+            <input id="admin-user" type="text" class="input-modern" placeholder="admin" autocomplete="username" />
+          </div>
+          <div>
+            <label class="block text-[10px] font-semibold text-gray-700 dark:text-gray-300 mb-0.5">Password</label>
+            <input id="admin-pass" type="password" class="input-modern" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')handleAdminLogin()" />
+          </div>
+
+          <button onclick="handleAdminLogin()" class="btn-primary w-full text-sm">${ICONS.lock} Masuk</button>
+          <button onclick="cancelAdminLogin()" class="btn-ghost w-full text-center">${ICONS.arrowLeft} Kembali</button>
+        </div>
+
+        <div class="mt-4 p-2 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-lg">
+          <p class="text-[9px] text-amber-700 dark:text-amber-300 text-center">
+            Default: <strong>admin</strong> / <strong>admin123</strong>
+          </p>
+        </div>
+      </div>
+    </div>
+  `;
+  setTimeout(() => document.getElementById('admin-user')?.focus(), 100);
+}
+
+function handleAdminLogin() {
+  const user = document.getElementById('admin-user').value.trim();
+  const pass = document.getElementById('admin-pass').value;
+  if (user === ADMIN_CREDENTIALS.username && pass === ADMIN_CREDENTIALS.password) {
+    state.adminAuthed = true;
+    sessionStorage.setItem('adminAuthed', 'true');
+    showToast('Login admin berhasil!', 'success');
+    goToAdmin();
+  } else {
+    showToast('Username atau password salah!', 'error');
+    document.getElementById('admin-pass').value = '';
+  }
+}
+
+function cancelAdminLogin() {
+  history.pushState(null, '', window.location.pathname);
+  state.view = 'login';
+  render();
+}
+
 function goToAdmin() {
   state.view = 'admin';
   state.student = { name: 'Admin', school: '-', branch: '-' };
@@ -675,16 +505,24 @@ function goToAdmin() {
   state.adminMenu = 'dashboard';
   state.activeTab = 'manual';
   state.isSidebarOpen = false;
+  state.editingExamId = null;
+  state.editingQuestionIndex = null;
   render();
   loadSettings();
 }
 
 // ==========================================
-// HANDLE LOGIN
+// HANDLE LOGIN SISWA (validasi token)
 // ==========================================
 async function handleLogin() {
+  const token = (document.getElementById('login-token').value || '').trim().toUpperCase();
   const name = document.getElementById('login-name').value.trim();
+
+  if (!token) { showToast('Token ujian wajib diisi!', 'warning'); document.getElementById('login-token').focus(); return; }
   if (!name) { showToast('Nama lengkap wajib diisi!', 'warning'); document.getElementById('login-name').focus(); return; }
+
+  const examTitle = document.getElementById('login-exam').value;
+  if (!examTitle) { showToast('Pilih ujian terlebih dahulu!', 'warning'); return; }
 
   state.student = {
     name: name,
@@ -692,21 +530,24 @@ async function handleLogin() {
     branch: document.getElementById('login-branch').value.trim() || '-'
   };
 
-  const examTitle = document.getElementById('login-exam').value;
-
   try {
     const { data, error } = await sb.from('question_banks').select('*').eq('judul_tes', examTitle).maybeSingle();
     if (error) throw error;
+    if (!data) throw new Error('Ujian tidak ditemukan di database');
 
-    if (data && data.questions) {
-      let questions = shuffleArray(data.questions);
-      questions = questions.map(q => ({ ...q, options: shuffleArray(q.options) }));
-      state.exam = { judul: data.judul_tes, durasi: data.durasi || 3600, questions: questions };
-    } else {
-      state.exam = getLocalExam(examTitle);
+    const examToken = (data.token || '').trim().toUpperCase();
+    if (examToken && token !== examToken) {
+      showToast('❌ Token ujian salah!', 'error');
+      return;
     }
+
+    let questions = shuffleArray(data.questions || []);
+    questions = questions.map(q => ({ ...q, options: shuffleArray(q.options || []) }));
+    state.exam = { judul: data.judul_tes, durasi: data.durasi || 3600, questions };
   } catch (err) {
-    state.exam = getLocalExam(examTitle);
+    showToast('❌ ' + err.message, 'error');
+    console.error(err);
+    return;
   }
 
   state.answers = {};
@@ -723,7 +564,7 @@ async function handleLogin() {
 }
 
 // ==========================================
-// HELPER FUNCTIONS
+// HELPER
 // ==========================================
 function shuffleArray(arr) {
   const newArr = [...arr];
@@ -734,38 +575,56 @@ function shuffleArray(arr) {
   return newArr;
 }
 
-function getLocalExam(title) {
-  const exams = {
-    'Bahasa Inggris 11 SMA S1 (PAS)': {
-      judul: 'Bahasa Inggris 11 SMA S1 (PAS)',
-      durasi: 3600,
-      questions: [
-        { id: 1, text: 'What is the main idea of the text?', narasi: 'Read the following text carefully.', options: ['Technology is bad.', 'Technology changes communication.', 'People are getting closer.', 'Real life is better.'], type: 'PG', answer: [1] },
-        { id: 2, text: 'Choose the correct synonym for Rapid.', narasi: null, options: ['Slow', 'Fast', 'Late', 'Early'], type: 'PG', answer: [1] },
-        { id: 3, text: 'Does technology create distances in real life?', narasi: 'Based on the text above.', options: ['True', 'False'], type: 'BS', answer: [0] }
-      ]
-    },
-    'Matematika 12 SMA S2 (UH)': {
-      judul: 'Matematika 12 SMA S2 (UH)',
-      durasi: 2700,
-      questions: [
-        { id: 1, text: 'Berapakah hasil dari 2 + 2?', narasi: null, options: ['3', '4', '5', '6'], type: 'PG', answer: [1] },
-        { id: 2, text: 'Berapakah hasil dari 3 × 7?', narasi: null, options: ['20', '21', '22', '23'], type: 'PG', answer: [1] }
-      ]
-    },
-    'Fisika 10 SMA S1 (PTS)': {
-      judul: 'Fisika 10 SMA S1 (PTS)',
-      durasi: 5400,
-      questions: [
-        { id: 1, text: 'Apa itu gaya?', narasi: 'Perhatikan gambar berikut...', options: ['Dorongan', 'Tarikan', 'Dorongan dan Tarikan', 'Semua benar'], type: 'PG', answer: [2] }
-      ]
-    }
-  };
-  return exams[title] || exams['Bahasa Inggris 11 SMA S1 (PAS)'];
+function detectMediaLinks(text) {
+  if (!text) return { type: 'text', original: text };
+  const youtubeRegex = /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\?]+)/;
+  const match = text.match(youtubeRegex);
+  if (match) return { type: 'video', embed: `https://www.youtube.com/embed/${match[1]}`, original: text };
+  const imageRegex = /(https?:\/\/[^\s]+\.(?:jpg|jpeg|png|gif|webp|svg))/i;
+  const imgMatch = text.match(imageRegex);
+  if (imgMatch) return { type: 'image', url: imgMatch[1], original: text };
+  return { type: 'text', original: text };
 }
 
+function renderMediaContent(text) {
+  if (!text) return text;
+  const detected = detectMediaLinks(text);
+  if (detected.type === 'video') return `<div class="video-container"><iframe src="${detected.embed}" allowfullscreen loading="lazy"></iframe></div>`;
+  if (detected.type === 'image') return `<img src="${detected.url}" class="image-preview" alt="Gambar" loading="lazy" />`;
+  return text;
+}
+
+function toggleDarkMode() {
+  state.isDarkMode = !state.isDarkMode;
+  localStorage.setItem('darkMode', state.isDarkMode);
+  render();
+}
+
+function toggleSidebar() {
+  state.isSidebarOpen = !state.isSidebarOpen;
+  const sidebar = document.querySelector('.sidebar');
+  const overlay = document.querySelector('.sidebar-overlay');
+  if (sidebar) sidebar.classList.toggle('open', state.isSidebarOpen);
+  if (overlay) overlay.classList.toggle('show', state.isSidebarOpen);
+}
+
+function closeSidebar() {
+  state.isSidebarOpen = false;
+  const sidebar = document.querySelector('.sidebar');
+  const overlay = document.querySelector('.sidebar-overlay');
+  if (sidebar) sidebar.classList.remove('open');
+  if (overlay) overlay.classList.remove('show');
+}
+
+function goToAdminMenu(menu) {
+  state.adminMenu = menu;
+  state.isSidebarOpen = false;
+  render();
+}
+
+
 // ==========================================
-// STUDENT EXAM - 3 KOLOM + MEDIA (HEADER KECIL)
+// STUDENT EXAM — 3 KOLOM + MEDIA + TIMER
 // ==========================================
 function renderStudent() {
   const exam = state.exam;
@@ -784,7 +643,6 @@ function renderStudent() {
 
   app.innerHTML = `
     <div class="h-screen flex flex-col bg-slate-50 dark:bg-slate-950">
-      <!-- HEADER - KECIL -->
       <header class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-3 py-1.5 flex flex-wrap justify-between items-center shadow-md">
         <div class="flex-1 min-w-0">
           <h1 class="font-bold text-[11px] sm:text-xs truncate flex items-center gap-1">
@@ -799,17 +657,13 @@ function renderStudent() {
         </div>
       </header>
 
-      <!-- BODY: 3 KOLOM -->
       <div class="flex-1 overflow-hidden flex flex-col md:flex-row">
-
-        <!-- KOLOM 1: NARASI -->
         <div class="w-full md:w-1/4 bg-white dark:bg-gray-800 border-b md:border-b-0 md:border-r dark:border-gray-700 p-3 md:p-4 overflow-y-auto">
           <h3 class="font-bold text-blue-700 dark:text-blue-400 border-b dark:border-gray-700 pb-1 mb-2 flex items-center gap-1.5 text-[11px]">${ICONS.bookOpen} Narasi</h3>
           <div class="text-[12px] text-gray-700 dark:text-gray-300 leading-relaxed">${narasiContent}</div>
           ${q.image ? `<img src="${q.image}" class="mt-2 image-preview" alt="Gambar soal" />` : ''}
         </div>
 
-        <!-- KOLOM 2: SOAL -->
         <div class="flex-1 p-3 md:p-5 overflow-y-auto">
           <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 md:p-6 border border-gray-100 dark:border-gray-700 animate-fadeInUp">
             <div class="flex justify-between items-center mb-2.5">
@@ -837,6 +691,7 @@ function renderStudent() {
                 `;
               }).join('')}
             </div>
+            ${isMultiSelect ? `<p class="text-[10px] text-gray-400 mt-2">* Pilih lebih dari satu jawaban</p>` : ''}
           </div>
 
           <div class="flex justify-between mt-3 gap-2">
@@ -845,22 +700,19 @@ function renderStudent() {
           </div>
         </div>
 
-        <!-- KOLOM 3: NAVIGASI -->
         <div class="w-full md:w-1/4 bg-white dark:bg-gray-800 border-t md:border-t-0 md:border-l dark:border-gray-700 p-3 md:p-4 overflow-y-auto">
           <h3 class="font-bold text-blue-700 dark:text-blue-400 border-b dark:border-gray-700 pb-1 mb-2 flex items-center gap-1.5 text-[11px]">${ICONS.layout} Navigasi</h3>
           <div class="grid grid-cols-4 gap-1.5">
             ${exam.questions.map((qq, i) => `<button onclick="goToQuestion(${i})" class="nav-btn ${i === state.currentIndex ? 'active' : ''} ${state.answers[qq.id] && state.answers[qq.id].length > 0 ? 'answered' : ''}">${i + 1}</button>`).join('')}
           </div>
-          <div class="mt-2 flex items-center gap-2 text-[9px] text-gray-500 dark:text-gray-400">
+          <div class="mt-2 flex items-center gap-2 text-[9px] text-gray-500 dark:text-gray-400 flex-wrap">
             <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-green-200 border border-green-400"></span> Terjawab</span>
             <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-white dark:bg-gray-600 border border-gray-300 dark:border-gray-500"></span> Belum</span>
           </div>
           <button onclick="confirmSubmit()" class="btn-success w-full mt-2.5 text-[11px] py-1.5">${ICONS.send} Kirim</button>
         </div>
-
       </div>
 
-      <!-- FOOTER -->
       <div class="footer-cbt">
         <p>© PT Adjarindo Creative Aksara 2026 — <a href="https://ajarind.web.id" target="_blank">ajarind.web.id</a> — WA: <a href="https://wa.me/6285710908070" target="_blank">0857-1090-8070</a></p>
       </div>
@@ -872,29 +724,102 @@ function renderStudent() {
 // ==========================================
 // STUDENT FUNCTIONS
 // ==========================================
-function selectAnswer(index) { const q = state.exam.questions[state.currentIndex]; state.answers[q.id] = [index]; updateOptionUI(); }
-function toggleAnswer(index) { const q = state.exam.questions[state.currentIndex]; const current = state.answers[q.id] || []; if (current.includes(index)) state.answers[q.id] = current.filter(i => i !== index); else state.answers[q.id] = [...current, index]; updateOptionUI(); }
-function updateOptionUI() { const q = state.exam.questions[state.currentIndex]; const selected = state.answers[q.id] || []; document.querySelectorAll('.option-card').forEach((el, i) => el.classList.toggle('option-selected', selected.includes(i))); updateNavButtons(); }
-function updateNavButtons() { const navBtns = document.querySelectorAll('.nav-btn'); if (navBtns[state.currentIndex]) { const q = state.exam.questions[state.currentIndex]; if (state.answers[q.id] && state.answers[q.id].length > 0) navBtns[state.currentIndex].className = 'nav-btn answered'; else navBtns[state.currentIndex].className = 'nav-btn'; } }
-function nextQuestion() { if (state.currentIndex < state.exam.questions.length - 1) { state.currentIndex++; render(); } }
-function prevQuestion() { if (state.currentIndex > 0) { state.currentIndex--; render(); } }
-function goToQuestion(index) { if (index >= 0 && index < state.exam.questions.length) { state.currentIndex = index; render(); } }
-function confirmSubmit() { const unanswered = state.exam.questions.filter(q => !state.answers[q.id] || state.answers[q.id].length === 0); if (unanswered.length > 0) { if (!confirm(`Anda belum menjawab ${unanswered.length} soal. Yakin ingin mengirim?`)) return; } else { if (!confirm('Yakin ingin mengirim semua jawaban?')) return; } submitExam(); }
+function selectAnswer(index) {
+  const q = state.exam.questions[state.currentIndex];
+  state.answers[q.id] = [index];
+  updateOptionUI();
+}
+
+function toggleAnswer(index) {
+  const q = state.exam.questions[state.currentIndex];
+  const current = state.answers[q.id] || [];
+  if (current.includes(index)) {
+    state.answers[q.id] = current.filter(i => i !== index);
+  } else {
+    state.answers[q.id] = [...current, index];
+  }
+  updateOptionUI();
+}
+
+function updateOptionUI() {
+  const q = state.exam.questions[state.currentIndex];
+  const selected = state.answers[q.id] || [];
+  document.querySelectorAll('.option-card').forEach((el, i) => el.classList.toggle('option-selected', selected.includes(i)));
+  updateNavButtons();
+}
+
+function updateNavButtons() {
+  const navBtns = document.querySelectorAll('.nav-btn');
+  if (navBtns[state.currentIndex]) {
+    const q = state.exam.questions[state.currentIndex];
+    if (state.answers[q.id] && state.answers[q.id].length > 0) {
+      navBtns[state.currentIndex].className = 'nav-btn answered';
+    } else {
+      navBtns[state.currentIndex].className = 'nav-btn';
+    }
+  }
+}
+
+function nextQuestion() {
+  if (state.currentIndex < state.exam.questions.length - 1) { state.currentIndex++; render(); }
+}
+
+function prevQuestion() {
+  if (state.currentIndex > 0) { state.currentIndex--; render(); }
+}
+
+function goToQuestion(index) {
+  if (index >= 0 && index < state.exam.questions.length) { state.currentIndex = index; render(); }
+}
+
+function confirmSubmit() {
+  const unanswered = state.exam.questions.filter(q => !state.answers[q.id] || state.answers[q.id].length === 0);
+  if (unanswered.length > 0) {
+    if (!confirm(`⚠️ Anda belum menjawab ${unanswered.length} soal. Yakin ingin mengirim?`)) return;
+  } else {
+    if (!confirm('✅ Yakin ingin mengirim semua jawaban?')) return;
+  }
+  submitExam();
+}
 
 async function submitExam() {
   if (state.submitted) return;
   state.submitted = true;
   if (state.timer) { clearInterval(state.timer); state.timer = null; }
+
   let correct = 0;
   const total = state.exam.questions.length;
   state.exam.questions.forEach(q => {
     const userAnswer = state.answers[q.id] || [];
     const correctAnswer = q.answer || [];
-    if (userAnswer.length === correctAnswer.length && userAnswer.every(v => correctAnswer.includes(v))) correct++;
+    if (userAnswer.length === correctAnswer.length && userAnswer.every(v => correctAnswer.includes(v))) {
+      correct++;
+    }
   });
   const score = Math.round((correct / total) * 100);
-  const result = { student_name: state.student.name, school: state.student.school, branch: state.student.branch, exam_title: state.exam.judul, total_questions: total, correct_answers: correct, score: score, cheating_count: state.cheatCount, duration_seconds: state.exam.durasi - state.timeLeft, submitted_at: new Date().toISOString(), answers: state.answers };
-  try { await sb.from('exam_results').insert([result]); } catch (err) { console.warn(err); }
+
+  const result = {
+    student_name: state.student.name,
+    school: state.student.school,
+    branch: state.student.branch,
+    exam_title: state.exam.judul,
+    total_questions: total,
+    correct_answers: correct,
+    score: score,
+    cheating_count: state.cheatCount,
+    duration_seconds: state.exam.durasi - state.timeLeft,
+    submitted_at: new Date().toISOString(),
+    answers: state.answers
+  };
+
+  try {
+    const { error } = await sb.from('exam_results').insert([result]);
+    if (error) console.warn('⚠️ Gagal simpan ke Supabase:', error.message);
+    else console.log('✅ Hasil tersimpan');
+  } catch (err) {
+    console.warn('⚠️ Error simpan:', err.message);
+  }
+
   state.view = 'result';
   state.result = result;
   render();
@@ -922,13 +847,25 @@ function renderResult() {
             <div class="bg-white/10 rounded-lg p-2"><div class="text-xl font-bold text-red-300">${r.total_questions - r.correct_answers}</div><div class="text-[9px] opacity-80">Salah</div></div>
           </div>
         </div>
+        ${r.cheating_count > 0 ? `
+          <div class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-700 p-2 rounded-lg mb-3">
+            <p class="text-yellow-800 dark:text-yellow-300 text-[10px]">⚠️ Terdeteksi ${r.cheating_count} kali pelanggaran</p>
+          </div>
+        ` : ''}
         <button onclick="backToLogin()" class="btn-primary w-full text-sm">${ICONS.arrowLeft} Kembali ke Login</button>
       </div>
     </div>
   `;
 }
 
-function backToLogin() { if (state.timer) clearInterval(state.timer); state.view = 'login'; state.exam = null; state.result = null; history.pushState(null, '', window.location.pathname); render(); }
+function backToLogin() {
+  if (state.timer) clearInterval(state.timer);
+  state.view = 'login';
+  state.exam = null;
+  state.result = null;
+  if (window.location.hash) history.pushState(null, '', window.location.pathname);
+  render();
+}
 
 // ==========================================
 // TIMER & ANTI CHEAT
@@ -938,22 +875,47 @@ function startTimer() {
   state.timer = setInterval(() => {
     state.timeLeft--;
     if (state.timeLeft === 300) showToast('Waktu tersisa 5 menit!', 'warning');
-    if (state.timeLeft <= 0) { clearInterval(state.timer); state.timer = null; showToast('Waktu habis! Ujian otomatis dikirim.', 'warning'); submitExam(); }
+    if (state.timeLeft <= 0) {
+      clearInterval(state.timer);
+      state.timer = null;
+      showToast('Waktu habis! Ujian otomatis dikirim.', 'warning');
+      submitExam();
+    }
     updateTimerDisplay();
   }, 1000);
 }
-function updateTimerDisplay() { const el = document.getElementById('timer'); if (!el) return; const m = Math.floor(state.timeLeft / 60); const s = state.timeLeft % 60; el.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`; }
+
+function updateTimerDisplay() {
+  const el = document.getElementById('timer');
+  if (!el) return;
+  const m = Math.floor(state.timeLeft / 60);
+  const s = state.timeLeft % 60;
+  el.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+}
+
 function activateAntiCheat() {
   document.addEventListener('contextmenu', e => e.preventDefault());
-  document.addEventListener('keydown', e => { if (e.ctrlKey && ['c', 'v', 'x', 'u'].includes(e.key.toLowerCase())) { e.preventDefault(); detectCheat('Keyboard shortcut'); } if (e.key === 'F12') { e.preventDefault(); detectCheat('F12'); } });
-  document.addEventListener('visibilitychange', () => { if (document.hidden && state.view === 'student') detectCheat('Switch tab'); });
+  document.addEventListener('keydown', e => {
+    if (e.ctrlKey && ['c', 'v', 'x', 'u'].includes(e.key.toLowerCase())) {
+      e.preventDefault();
+      detectCheat('Keyboard shortcut');
+    }
+    if (e.key === 'F12') { e.preventDefault(); detectCheat('F12'); }
+  });
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden && state.view === 'student') detectCheat('Switch tab');
+  });
 }
-function detectCheat(action) { state.cheatCount++; const warn = document.getElementById('cheat-warn'); if (warn) { warn.classList.remove('hidden'); warn.innerHTML = `${ICONS.alertTriangle} ${state.cheatCount}x`; } showToast(`PERINGATAN ${state.cheatCount}x: ${action}!`, 'error'); }
 
-// ==========================================
-// DARK MODE
-// ==========================================
-function toggleDarkMode() { state.isDarkMode = !state.isDarkMode; localStorage.setItem('darkMode', state.isDarkMode); render(); }
+function detectCheat(action) {
+  state.cheatCount++;
+  const warn = document.getElementById('cheat-warn');
+  if (warn) {
+    warn.classList.remove('hidden');
+    warn.innerHTML = `${ICONS.alertTriangle} ${state.cheatCount}x`;
+  }
+  showToast(`PERINGATAN ${state.cheatCount}x: ${action}!`, 'error');
+}
 
 // ==========================================
 // ADMIN LAYOUT
@@ -1055,17 +1017,27 @@ async function loadDashboardData() {
     const today = new Date().toISOString().split('T')[0];
     const { count: todayExams } = await sb.from('exam_results').select('*', { count: 'exact', head: true }).gte('submitted_at', today);
     const { data: scores } = await sb.from('exam_results').select('score');
-    document.getElementById('stat-exams').textContent = totalExams || 0;
-    document.getElementById('stat-students').textContent = new Set(participants?.map(p => p.student_name)).size || 0;
-    document.getElementById('stat-cheaters').textContent = cheaters?.length || 0;
-    document.getElementById('stat-today').textContent = todayExams || 0;
+    const el1 = document.getElementById('stat-exams');
+    const el2 = document.getElementById('stat-students');
+    const el3 = document.getElementById('stat-cheaters');
+    const el4 = document.getElementById('stat-today');
+    if (el1) el1.textContent = totalExams || 0;
+    if (el2) el2.textContent = new Set(participants?.map(p => p.student_name)).size || 0;
+    if (el3) el3.textContent = cheaters?.length || 0;
+    if (el4) el4.textContent = todayExams || 0;
     renderChart(scores || []);
   } catch (err) { console.error('Gagal load dashboard:', err); }
 }
 
 function renderChart(scores) {
   const canvas = document.getElementById('scoreChart'); if (!canvas) return;
-  const ranges = [{ label: '0-20', min: 0, max: 20, count: 0 }, { label: '21-40', min: 21, max: 40, count: 0 }, { label: '41-60', min: 41, max: 60, count: 0 }, { label: '61-80', min: 61, max: 80, count: 0 }, { label: '81-100', min: 81, max: 100, count: 0 }];
+  const ranges = [
+    { label: '0-20', min: 0, max: 20, count: 0 },
+    { label: '21-40', min: 21, max: 40, count: 0 },
+    { label: '41-60', min: 41, max: 60, count: 0 },
+    { label: '61-80', min: 61, max: 80, count: 0 },
+    { label: '81-100', min: 81, max: 100, count: 0 }
+  ];
   scores.forEach(s => ranges.forEach(r => { if (s.score >= r.min && s.score <= r.max) r.count++; }));
   if (state.chartInstance) state.chartInstance.destroy();
   state.chartInstance = new Chart(canvas, {
@@ -1082,17 +1054,11 @@ function renderCreateForm() {
   const totalQuestions = state.adminQuestions.length;
   return `
     <div class="space-y-4 animate-fadeInUp">
-      <!-- Tabs -->
       <div class="flex gap-2">
-        <button class="tab-btn ${state.activeTab === 'manual' ? 'active' : ''}" onclick="switchTab('manual')">
-          ${ICONS.penTool} Manual
-        </button>
-        <button class="tab-btn ${state.activeTab === 'excel' ? 'active' : ''}" onclick="switchTab('excel')">
-          ${ICONS.fileSpreadsheet} Import Excel
-        </button>
+        <button class="tab-btn ${state.activeTab === 'manual' ? 'active' : ''}" onclick="switchTab('manual')">${ICONS.penTool} Manual</button>
+        <button class="tab-btn ${state.activeTab === 'excel' ? 'active' : ''}" onclick="switchTab('excel')">${ICONS.fileSpreadsheet} Import Excel</button>
       </div>
 
-      <!-- TAB MANUAL -->
       <div class="${state.activeTab === 'manual' ? '' : 'hidden'}" id="tab-manual-content">
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 border border-gray-100 dark:border-gray-700">
           <h3 class="font-bold text-gray-700 dark:text-gray-300 mb-2.5 flex items-center gap-2 text-sm">${ICONS.settings} Setting Soal</h3>
@@ -1102,8 +1068,9 @@ function renderCreateForm() {
             <select id="f-tipe" class="input-modern"><option value="UH">UH</option><option value="PTS">PTS</option><option value="PAS">PAS</option><option value="TKA">TKA</option></select>
             <input id="f-judul" type="text" placeholder="Judul Tes *" class="input-modern" />
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mt-2">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-2 mt-2">
             <input id="f-durasi" type="number" placeholder="Durasi (detik)" value="3600" class="input-modern" />
+            <input id="f-token" type="text" placeholder="Token ujian (mis. SMA1-2026)" class="input-modern" />
             <div class="flex items-center gap-2"><input type="checkbox" id="f-pakai-narasi" class="accent-blue-600" /> <label for="f-pakai-narasi" class="text-xs text-gray-700 dark:text-gray-300">Pakai Narasi</label></div>
           </div>
         </div>
@@ -1173,7 +1140,7 @@ function renderCreateForm() {
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 border border-gray-100 dark:border-gray-700">
           <h3 class="font-bold text-gray-700 dark:text-gray-300 mb-2.5 flex items-center gap-2 text-sm">${ICONS.bookOpen} Daftar Soal (${totalQuestions})</h3>
           <div id="question-list" class="space-y-1.5 max-h-48 overflow-y-auto">
-            ${totalQuestions === 0 ? '<p class="text-gray-400 text-xs">Belum ada soal</p>' : 
+            ${totalQuestions === 0 ? '<p class="text-gray-400 text-xs">Belum ada soal</p>' :
               state.adminQuestions.map((q, i) => `
                 <div class="flex justify-between items-center bg-gray-50 dark:bg-gray-700/50 p-2 rounded-lg border border-gray-100 dark:border-gray-700">
                   <div class="flex items-center gap-2 flex-wrap">
@@ -1185,11 +1152,11 @@ function renderCreateForm() {
                 </div>
               `).join('')}
           </div>
-          <button onclick="saveAllQuestions()" class="btn-success w-full mt-3 text-sm py-2">${ICONS.save} Simpan Semua (${totalQuestions} soal)</button>
+          <button onclick="saveAllQuestions()" class="btn-success w-full mt-3 text-sm py-2">${ICONS.save} ${state.editingExamId ? 'Simpan Perubahan' : `Simpan Semua (${totalQuestions} soal)`}</button>
+          ${state.editingExamId ? `<button onclick="cancelEdit()" class="btn-ghost w-full mt-2 text-sm py-2">Batal Edit</button>` : ''}
         </div>
       </div>
 
-      <!-- TAB EXCEL -->
       <div class="${state.activeTab === 'excel' ? '' : 'hidden'}" id="tab-excel-content">
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 border border-gray-100 dark:border-gray-700">
           <h3 class="font-bold text-gray-700 dark:text-gray-300 mb-3 flex items-center gap-2 text-sm">${ICONS.fileSpreadsheet} Import Soal dari Excel</h3>
@@ -1259,14 +1226,11 @@ function loadCreateForm() {
         const url = this.value.trim();
         if (url) {
           document.getElementById('f-image-url').value = url;
-          const preview = document.getElementById('image-preview');
-          const container = document.getElementById('image-preview-container');
-          preview.src = url;
-          container.classList.remove('hidden');
+          document.getElementById('image-preview').src = url;
+          document.getElementById('image-preview-container').classList.remove('hidden');
         }
       });
     }
-    // Drop zone
     const dropZone = document.getElementById('drop-zone');
     if (dropZone) {
       dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('drag-over'); });
@@ -1277,6 +1241,19 @@ function loadCreateForm() {
         if (files.length > 0) { handleExcelFile({ target: { files: files } }); }
       });
     }
+    // Pre-fill edit mode
+    if (state.editingExamId) {
+      const exam = state.editingExamData;
+      if (exam) {
+        const f = (id) => document.getElementById(id);
+        if (f('f-mapel')) f('f-mapel').value = exam.mapel || '';
+        if (f('f-kelas')) f('f-kelas').value = exam.kelas || '';
+        if (f('f-tipe')) f('f-tipe').value = exam.tipe_tes || 'PAS';
+        if (f('f-judul')) f('f-judul').value = exam.judul_tes || '';
+        if (f('f-durasi')) f('f-durasi').value = exam.durasi || 3600;
+        if (f('f-token')) f('f-token').value = exam.token || '';
+      }
+    }
   }, 100);
 }
 
@@ -1286,7 +1263,224 @@ function switchTab(tab) {
 }
 
 // ==========================================
-// ADMIN - EXCEL FUNCTIONS
+// OPTIONS MANAGEMENT
+// ==========================================
+function addOption() { state.optionCount++; updateOptionsByType(); }
+function removeOption() { if (state.optionCount <= 2) { showToast('Minimal 2 opsi!', 'warning'); return; } state.optionCount--; updateOptionsByType(); }
+
+function updateOptionsByType() {
+  const type = document.getElementById('f-tipe-soal')?.value || 'PG';
+  const container = document.getElementById('options-container');
+  const correctContainer = document.getElementById('correct-options');
+  if (!container || !correctContainer) return;
+
+  let optionCount = state.optionCount;
+  let optionLabels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+  let isMultiSelect = false;
+
+  switch(type) {
+    case 'PG': optionCount = Math.max(optionCount, 4); isMultiSelect = false; break;
+    case 'PG5': optionCount = Math.max(optionCount, 5); isMultiSelect = false; break;
+    case 'PGK': optionCount = Math.max(optionCount, 4); isMultiSelect = true; break;
+    case 'BS': optionCount = 2; optionLabels = ['Benar', 'Salah']; isMultiSelect = false; break;
+    case 'BSK': optionCount = 2; optionLabels = ['Benar', 'Salah']; isMultiSelect = true; break;
+    case 'ST': optionCount = 2; optionLabels = ['Setuju', 'Tidak Setuju']; isMultiSelect = true; break;
+    default: optionCount = Math.max(optionCount, 4); isMultiSelect = false;
+  }
+  state.optionCount = optionCount;
+
+  let optionsHTML = '';
+  for (let i = 0; i < optionCount; i++) {
+    const label = optionLabels[i] || String.fromCharCode(65 + i);
+    const imageUrl = state.optionImages[i] || '';
+    optionsHTML += `
+      <div class="option-input p-2 bg-gray-50 dark:bg-gray-700/30 rounded-lg border border-gray-100 dark:border-gray-700">
+        <span class="font-bold text-xs w-5 text-gray-700 dark:text-gray-300">${label}.</span>
+        <input type="text" id="opt-${i}" placeholder="Teks opsi ${label}" class="flex-1 bg-transparent border-0 focus:ring-0 text-gray-700 dark:text-gray-300 text-sm" />
+        <div class="option-image-upload flex items-center gap-1">
+          <input type="file" id="opt-img-${i}" accept="image/*" onchange="uploadOptionImage(${i}, this)" class="text-[9px] text-gray-500" />
+          ${imageUrl ? `<img src="${imageUrl}" class="preview-thumb" id="opt-preview-${i}" />` : `<div id="opt-preview-${i}" class="w-7 h-7 rounded-lg border border-gray-200 dark:border-gray-600 flex items-center justify-center text-[9px] text-gray-400">Prev</div>`}
+          ${imageUrl ? `<button onclick="removeOptionImage(${i})" class="text-red-500 text-[9px]">✕</button>` : ''}
+          <input type="hidden" id="opt-image-url-${i}" value="${imageUrl}" />
+        </div>
+        ${isMultiSelect ? `<input type="checkbox" id="correct-${i}" class="correct-checkbox accent-blue-600" />` : ''}
+        ${!isMultiSelect ? `<input type="radio" name="correct-answer" value="${i}" class="correct-radio accent-blue-600" />` : ''}
+        ${i >= 4 ? `<span class="remove-option" onclick="removeOption()">✕</span>` : ''}
+      </div>
+    `;
+  }
+  container.innerHTML = optionsHTML;
+
+  let correctHTML = '';
+  if (isMultiSelect) {
+    correctHTML = `<p class="text-[9px] text-gray-500">* Centang kotak di samping opsi (bisa >1)</p>`;
+  } else {
+    for (let i = 0; i < optionCount; i++) {
+      const label = optionLabels[i] || String.fromCharCode(65 + i);
+      correctHTML += `<label class="flex items-center gap-1 text-xs text-gray-700 dark:text-gray-300"><input type="radio" name="correct-answer" value="${i}" class="accent-blue-600" /> ${label}</label>`;
+    }
+  }
+  correctContainer.innerHTML = correctHTML;
+
+  if (isMultiSelect) {
+    document.querySelectorAll('.correct-checkbox').forEach((cb, i) => {
+      cb.addEventListener('change', function() {
+        const optInput = document.getElementById(`opt-${i}`);
+        if (this.checked) { optInput.style.borderColor = '#10b981'; optInput.style.backgroundColor = 'rgba(16,185,129,0.05)'; }
+        else { optInput.style.borderColor = ''; optInput.style.backgroundColor = ''; }
+      });
+    });
+  }
+}
+
+// ==========================================
+// UPLOAD GAMBAR (pakai Supabase Storage)
+// ==========================================
+async function uploadOptionImage(index, input) {
+  const file = input.files[0]; if (!file) return;
+  const preview = document.getElementById(`opt-preview-${index}`);
+  if (preview) preview.innerHTML = '⏳';
+  try {
+    const cleanName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+    const fileName = `options/opt_${Date.now()}_${cleanName}`;
+    const { data, error } = await sb.storage.from('exam-images').upload(fileName, file, { cacheControl: '3600', upsert: false, contentType: file.type });
+    if (error) throw error;
+    const { data: urlData } = sb.storage.from('exam-images').getPublicUrl(fileName);
+    state.optionImages[index] = urlData.publicUrl;
+    document.getElementById(`opt-image-url-${index}`).value = urlData.publicUrl;
+    if (preview) preview.innerHTML = `<img src="${urlData.publicUrl}" class="preview-thumb" />`;
+    showToast('Gambar opsi diupload!', 'success');
+  } catch (err) {
+    showToast('Gagal upload: ' + err.message, 'error');
+    if (preview) preview.innerHTML = '❌';
+  }
+}
+
+function removeOptionImage(index) {
+  state.optionImages[index] = null;
+  document.getElementById(`opt-image-url-${index}`).value = '';
+  const preview = document.getElementById(`opt-preview-${index}`);
+  if (preview) preview.innerHTML = 'Prev';
+}
+
+function previewImage(event) {
+  const file = event.target.files[0]; if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    document.getElementById('image-preview').src = e.target.result;
+    document.getElementById('image-preview-container').classList.remove('hidden');
+    state.imageData = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function uploadImage() {
+  const fileInput = document.getElementById('f-image');
+  const linkInput = document.getElementById('f-image-link');
+  if (fileInput && fileInput.files && fileInput.files.length > 0) {
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      document.getElementById('f-image-url').value = e.target.result;
+      document.getElementById('image-preview').src = e.target.result;
+      document.getElementById('image-preview-container').classList.remove('hidden');
+      showToast('Gambar siap!', 'success');
+    };
+    reader.readAsDataURL(file);
+  } else if (linkInput && linkInput.value.trim()) {
+    const url = linkInput.value.trim();
+    document.getElementById('f-image-url').value = url;
+    document.getElementById('image-preview').src = url;
+    document.getElementById('image-preview-container').classList.remove('hidden');
+    showToast('Gambar dari link siap!', 'success');
+  } else {
+    showToast('Pilih gambar atau link!', 'warning');
+  }
+}
+
+function removeImage() {
+  state.imageData = null;
+  document.getElementById('image-preview-container').classList.add('hidden');
+  document.getElementById('f-image').value = '';
+  document.getElementById('f-image-link').value = '';
+  document.getElementById('f-image-url').value = '';
+}
+
+// ==========================================
+// ADD QUESTION TO LIST
+// ==========================================
+function addQuestion() { state.currentQuestionNumber++; render(); }
+function removeQuestion() { if (state.currentQuestionNumber <= 1) return; state.currentQuestionNumber--; render(); }
+
+function addQuestionToList() {
+  const teks = document.getElementById('f-teks').value.trim();
+  if (!teks) { showToast('Teks soal wajib!', 'warning'); return; }
+
+  const type = document.getElementById('f-tipe-soal').value;
+  const narasi = document.getElementById('f-narasi')?.value.trim() || null;
+  const imageUrl = document.getElementById('f-image-url')?.value || null;
+  const videoLink = document.getElementById('f-video-link')?.value.trim() || null;
+
+  let videoEmbed = null;
+  if (videoLink) {
+    const match = videoLink.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\?]+)/);
+    if (match) { videoEmbed = `https://www.youtube.com/embed/${match[1]}`; }
+  }
+
+  const options = [];
+  for (let i = 0; i < state.optionCount; i++) {
+    const text = document.getElementById(`opt-${i}`)?.value.trim();
+    const image = document.getElementById(`opt-image-url-${i}`)?.value || null;
+    if (text) options.push({ text, image });
+  }
+  if (options.length < 2) { showToast('Minimal 2 opsi!', 'warning'); return; }
+
+  let correctAnswers = [];
+  const isMultiSelect = ['PGK', 'BSK', 'ST'].includes(type);
+  if (isMultiSelect) {
+    document.querySelectorAll('.correct-checkbox').forEach((cb, i) => { if (cb.checked) correctAnswers.push(i); });
+  } else {
+    const radio = document.querySelector('input[name="correct-answer"]:checked');
+    if (radio) correctAnswers.push(parseInt(radio.value));
+  }
+  if (correctAnswers.length === 0) { showToast('Pilih jawaban benar!', 'warning'); return; }
+
+  const isEditing = state.editingQuestionIndex !== null;
+  const newId = isEditing ? state.adminQuestions[state.editingQuestionIndex].id : state.adminQuestions.length + 1;
+  const question = { id: newId, text: teks, narasi, image: imageUrl, video: videoEmbed, options, type, answer: correctAnswers };
+
+  if (isEditing) {
+    state.adminQuestions[state.editingQuestionIndex] = question;
+    state.editingQuestionIndex = null;
+  } else {
+    state.adminQuestions.push(question);
+  }
+  state.currentQuestionNumber = state.adminQuestions.length + 1;
+
+  // Reset form
+  document.getElementById('f-teks').value = '';
+  if (document.getElementById('f-narasi')) document.getElementById('f-narasi').value = '';
+  document.getElementById('f-image-url').value = '';
+  document.getElementById('f-image-link').value = '';
+  document.getElementById('f-video-link').value = '';
+  document.getElementById('image-preview-container').classList.add('hidden');
+  document.getElementById('f-image').value = '';
+  state.imageData = null;
+  state.optionImages = {};
+
+  render();
+  showToast(`Soal #${state.adminQuestions.length} ${isEditing ? 'diupdate' : 'ditambahkan'}!`, 'success');
+}
+
+function removeQuestionFromList(index) {
+  if (!confirm('Hapus soal ini?')) return;
+  state.adminQuestions.splice(index, 1);
+  state.adminQuestions.forEach((q, i) => q.id = i + 1);
+  render();
+}
+
+// ==========================================
+// EXCEL FUNCTIONS
 // ==========================================
 function handleExcelFile(event) {
   const file = event.target.files[0];
@@ -1352,8 +1546,10 @@ function importFromExcel() {
 
 function clearExcelData() {
   state.excelData = [];
-  document.getElementById('excel-preview').classList.add('hidden');
-  document.getElementById('drop-zone').innerHTML = `
+  const p = document.getElementById('excel-preview');
+  if (p) p.classList.add('hidden');
+  const dz = document.getElementById('drop-zone');
+  if (dz) dz.innerHTML = `
     <p class="text-sm text-gray-500 dark:text-gray-400">📁 Drag & drop file Excel (.xlsx) ke sini</p>
     <p class="text-xs text-gray-400 mt-1">atau</p>
     <button onclick="document.getElementById('excel-file').click()" class="mt-2 btn-primary text-xs py-1.5 px-4">Pilih File Excel</button>
@@ -1377,24 +1573,79 @@ function downloadTemplate() {
 }
 
 // ==========================================
-// ADMIN - EXAMS, CHEATERS, STUDENTS, SETTINGS, VIEW CBT
+// SAVE ALL QUESTIONS / UPDATE (dengan Token)
+// ==========================================
+async function saveAllQuestions() {
+  if (state.editingExamId) return saveEditedExam();
+
+  const mapel = document.getElementById('f-mapel').value.trim();
+  const kelas = document.getElementById('f-kelas').value.trim();
+  const tipe = document.getElementById('f-tipe').value;
+  const judul = document.getElementById('f-judul').value.trim();
+  const durasi = parseInt(document.getElementById('f-durasi').value) || 3600;
+  const token = document.getElementById('f-token').value.trim().toUpperCase() || null;
+
+  if (!mapel) { showToast('Isi Mapel!', 'warning'); document.getElementById('f-mapel').focus(); return; }
+  if (!judul) { showToast('Isi Judul Tes!', 'warning'); document.getElementById('f-judul').focus(); return; }
+  if (state.adminQuestions.length === 0) { showToast('Tambah soal dulu!', 'warning'); return; }
+
+  try {
+    const { error } = await sb.from('question_banks').insert([{
+      mapel, kelas, tipe_tes: tipe, judul_tes: judul, durasi, token,
+      questions: state.adminQuestions,
+      created_at: new Date().toISOString()
+    }]);
+    if (error) throw error;
+    showToast(`Berhasil menyimpan ${state.adminQuestions.length} soal!`, 'success');
+    state.adminQuestions = [];
+    state.currentQuestionNumber = 1;
+    document.getElementById('f-mapel').value = '';
+    document.getElementById('f-kelas').value = '';
+    document.getElementById('f-judul').value = '';
+    document.getElementById('f-token').value = '';
+    render();
+  } catch (err) {
+    showToast('Gagal simpan: ' + err.message, 'error');
+    console.error(err);
+  }
+}
+
+// ==========================================
+// ADMIN - DATABASE TES (dengan Edit & Token)
 // ==========================================
 function renderExams() {
-  return `<div class="space-y-4"><div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 border border-gray-100 dark:border-gray-700"><div id="exams-list"><p class="text-gray-400 text-sm">Memuat data...</p></div></div></div>`;
+  return `
+    <div class="space-y-4 animate-fadeInUp">
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 border border-gray-100 dark:border-gray-700">
+        <div class="flex justify-between items-center mb-3 flex-wrap gap-2">
+          <h3 class="font-bold text-gray-700 dark:text-gray-300 text-sm flex items-center gap-2">${ICONS.fileText} Daftar Paket Soal</h3>
+          <button onclick="loadExamsData()" class="btn-ghost text-xs">🔄 Muat Ulang</button>
+        </div>
+        <div id="exams-list"><p class="text-gray-400 text-sm">Memuat data...</p></div>
+      </div>
+    </div>
+  `;
 }
 
 async function loadExamsData() {
+  const container = document.getElementById('exams-list');
+  if (!container) return;
+  container.innerHTML = '<p class="text-gray-400 text-sm">⏳ Memuat data...</p>';
   try {
     const { data, error } = await sb.from('question_banks').select('*').order('created_at', { ascending: false });
     if (error) throw error;
-    const container = document.getElementById('exams-list');
-    if (!data || data.length === 0) { container.innerHTML = `<p class="text-gray-500 dark:text-gray-400 text-center py-4 text-sm">Belum ada tes</p>`; return; }
+    if (!data || data.length === 0) {
+      container.innerHTML = `<div class="text-center py-6"><p class="text-gray-500 dark:text-gray-400 text-sm">Belum ada paket soal</p><button onclick="goToAdminMenu('create')" class="btn-primary text-xs mt-2">+ Buat Soal Pertama</button></div>`;
+      return;
+    }
+    window._examsCache = data;
     container.innerHTML = data.map((exam, i) => `
       <div class="flex flex-wrap justify-between items-center bg-gray-50 dark:bg-gray-700/50 p-3 rounded-lg border border-gray-100 dark:border-gray-700 mb-2 hover:shadow-md transition">
         <div class="flex-1 min-w-0">
           <div class="flex items-center gap-2 flex-wrap">
             <span class="badge badge-blue text-[9px]">#${i+1}</span>
             <span class="font-bold text-gray-800 dark:text-white text-sm">${exam.judul_tes}</span>
+            ${exam.token ? `<span class="badge badge-yellow text-[9px]" title="Token: ${exam.token}">${ICONS.key} ${exam.token}</span>` : `<span class="badge text-[9px] bg-gray-200 text-gray-500">no-token</span>`}
           </div>
           <div class="text-[10px] text-gray-500 dark:text-gray-400 mt-1 flex items-center gap-2 flex-wrap">
             <span class="badge badge-purple">${exam.mapel}</span>
@@ -1404,61 +1655,284 @@ async function loadExamsData() {
             <span class="text-gray-400">${Math.round((exam.durasi || 3600) / 60)} menit</span>
           </div>
         </div>
-        <div class="text-[9px] text-gray-400 dark:text-gray-500 mt-1 sm:mt-0">${new Date(exam.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</div>
+        <div class="flex gap-1.5 items-center mt-2 sm:mt-0 flex-wrap">
+          <div class="text-[9px] text-gray-400 dark:text-gray-500">${new Date(exam.created_at).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</div>
+          <button onclick="editExam(${exam.id})" class="btn-ghost text-xs py-1 px-2">${ICONS.penTool} Edit</button>
+          <button onclick="deleteExam(${exam.id})" class="btn-danger text-xs py-1 px-2">🗑️</button>
+        </div>
       </div>
     `).join('');
-  } catch (err) { document.getElementById('exams-list').innerHTML = `<p class="text-red-500 text-sm">${err.message}</p>`; }
+  } catch (err) {
+    container.innerHTML = `<p class="text-red-500 text-sm">❌ Error: ${err.message}</p>`;
+  }
 }
 
+function editExam(id) {
+  const exams = window._examsCache || [];
+  const exam = exams.find(e => e.id === id);
+  if (!exam) { showToast('Data ujian tidak ditemukan', 'error'); return; }
+  state.editingExamId = id;
+  state.editingExamData = exam;
+  state.editingQuestionIndex = null;
+  state.adminQuestions = JSON.parse(JSON.stringify(exam.questions || []));
+  state.currentQuestionNumber = state.adminQuestions.length + 1;
+  state.activeTab = 'manual';
+  state.adminMenu = 'create';
+  render();
+  showToast(`✏️ Mode edit: ${exam.judul_tes}`, 'info');
+}
+
+async function saveEditedExam() {
+  if (!state.editingExamId) return;
+  if (!confirm('Simpan perubahan ke database?')) return;
+
+  const mapel = document.getElementById('f-mapel').value.trim();
+  const kelas = document.getElementById('f-kelas').value.trim();
+  const tipe = document.getElementById('f-tipe').value;
+  const judul = document.getElementById('f-judul').value.trim();
+  const durasi = parseInt(document.getElementById('f-durasi').value) || 3600;
+  const token = document.getElementById('f-token').value.trim().toUpperCase() || null;
+
+  if (!mapel || !judul) { showToast('Mapel & Judul wajib!', 'warning'); return; }
+
+  try {
+    const { error } = await sb.from('question_banks').update({
+      mapel, kelas, tipe_tes: tipe, judul_tes: judul, durasi, token,
+      questions: state.adminQuestions
+    }).eq('id', state.editingExamId);
+    if (error) throw error;
+    showToast('✅ Perubahan tersimpan!', 'success');
+    state.editingExamId = null;
+    state.editingExamData = null;
+    state.editingQuestionIndex = null;
+    state.adminQuestions = [];
+    state.currentQuestionNumber = 1;
+    goToAdminMenu('exams');
+    setTimeout(() => loadExamsData(), 200);
+  } catch (err) {
+    showToast('Gagal: ' + err.message, 'error');
+  }
+}
+
+function cancelEdit() {
+  if (!confirm('Batalkan edit? Perubahan tidak akan disimpan.')) return;
+  state.editingExamId = null;
+  state.editingExamData = null;
+  state.editingQuestionIndex = null;
+  state.adminQuestions = [];
+  state.currentQuestionNumber = 1;
+  goToAdminMenu('exams');
+}
+
+async function deleteExam(id) {
+  if (!confirm('Hapus paket soal ini? Tindakan tidak bisa dibatalkan!')) return;
+  try {
+    const { error } = await sb.from('question_banks').delete().eq('id', id);
+    if (error) throw error;
+    showToast('✅ Paket soal terhapus', 'success');
+    loadExamsData();
+  } catch (err) {
+    showToast('Gagal hapus: ' + err.message, 'error');
+  }
+}
+
+// ==========================================
+// ADMIN - PELANGGARAN
+// ==========================================
 function renderCheaters() {
-  return `<div class="space-y-4"><div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 border border-gray-100 dark:border-gray-700"><div id="cheaters-list"><p class="text-gray-400 text-sm">Memuat data...</p></div></div></div>`;
+  return `
+    <div class="space-y-4 animate-fadeInUp">
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 border border-gray-100 dark:border-gray-700">
+        <div class="flex justify-between items-center mb-3 flex-wrap gap-2">
+          <h3 class="font-bold text-gray-700 dark:text-gray-300 text-sm flex items-center gap-2">${ICONS.alertTriangle} Daftar Pelanggaran</h3>
+          <button onclick="loadCheatersData()" class="btn-ghost text-xs">🔄 Muat Ulang</button>
+        </div>
+        <div id="cheaters-list"><p class="text-gray-400 text-sm">Memuat data...</p></div>
+      </div>
+    </div>
+  `;
 }
 
 async function loadCheatersData() {
+  const container = document.getElementById('cheaters-list');
+  if (!container) return;
+  container.innerHTML = '<p class="text-gray-400 text-sm">⏳ Memuat...</p>';
   try {
-    const { data, error } = await sb.from('exam_results').select('student_name, school, branch, exam_title, cheating_count, score, submitted_at').gt('cheating_count', 0).order('cheating_count', { ascending: false });
+    const { data, error } = await sb.from('exam_results')
+      .select('id, student_name, school, branch, exam_title, cheating_count, score, submitted_at')
+      .gt('cheating_count', 0)
+      .order('cheating_count', { ascending: false });
     if (error) throw error;
-    const container = document.getElementById('cheaters-list');
-    if (!data || data.length === 0) { container.innerHTML = `<div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg text-center"><p class="text-green-600 dark:text-green-400 text-sm font-medium">Tidak ada pelanggaran</p></div>`; return; }
-    container.innerHTML = `<div class="overflow-x-auto"><table class="table-modern w-full text-sm"><thead><tr class="bg-gray-50 dark:bg-gray-700"><th class="text-[10px] p-2 text-left">No</th><th class="text-[10px] p-2 text-left">Nama</th><th class="text-[10px] p-2 text-left">Sekolah</th><th class="text-[10px] p-2 text-left">Ujian</th><th class="text-center text-[10px] p-2">Pelanggaran</th><th class="text-center text-[10px] p-2">Nilai</th><th class="text-[10px] p-2">Waktu</th></tr></thead><tbody>${data.map((c, i) => `<tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50"><td class="p-2 text-sm">${i+1}</td><td class="p-2 font-semibold dark:text-white text-sm">${c.student_name}</td><td class="p-2 text-sm">${c.school || '-'}</td><td class="p-2 text-sm">${c.exam_title}</td><td class="p-2 text-center"><span class="badge badge-red">${c.cheating_count}x</span></td><td class="p-2 text-center font-bold text-sm">${c.score}%</td><td class="p-2 text-[10px] text-gray-500">${new Date(c.submitted_at).toLocaleString('id-ID')}</td></tr>`).join('')}</tbody></table></div>`;
-  } catch (err) { document.getElementById('cheaters-list').innerHTML = `<p class="text-red-500 text-sm">${err.message}</p>`; }
+    if (!data || data.length === 0) {
+      container.innerHTML = `<div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg text-center"><p class="text-green-600 dark:text-green-400 text-sm font-medium">✅ Tidak ada pelanggaran</p></div>`;
+      return;
+    }
+    container.innerHTML = `<div class="overflow-x-auto"><table class="table-modern w-full">
+      <thead><tr>
+        <th>No</th><th>Nama</th><th>Sekolah</th><th>Ujian</th>
+        <th class="text-center">Pelanggaran</th><th class="text-center">Nilai</th><th>Waktu</th>
+      </tr></thead>
+      <tbody>
+        ${data.map((c, i) => `
+          <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+            <td>${i+1}</td>
+            <td class="font-semibold dark:text-white">${c.student_name}</td>
+            <td>${c.school || '-'}</td>
+            <td>${c.exam_title}</td>
+            <td class="text-center"><span class="badge badge-red">${c.cheating_count}x</span></td>
+            <td class="text-center font-bold ${c.score >= 70 ? 'text-green-600' : 'text-red-600'}">${c.score}%</td>
+            <td class="text-[10px] text-gray-500">${new Date(c.submitted_at).toLocaleString('id-ID')}</td>
+          </tr>
+        `).join('')}
+      </tbody></table></div>
+      <p class="text-xs text-gray-500 mt-2">Total: ${data.length} pelanggaran</p>`;
+  } catch (err) {
+    container.innerHTML = `<p class="text-red-500 text-sm">❌ ${err.message}</p>`;
+  }
 }
 
+// ==========================================
+// ADMIN - DATA SISWA
+// ==========================================
 function renderStudents() {
-  return `<div class="space-y-4"><div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 border border-gray-100 dark:border-gray-700"><div id="students-list"><p class="text-gray-400 text-sm">Memuat data...</p></div></div></div>`;
+  return `
+    <div class="space-y-4 animate-fadeInUp">
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 border border-gray-100 dark:border-gray-700">
+        <div class="flex justify-between items-center mb-3 flex-wrap gap-2">
+          <h3 class="font-bold text-gray-700 dark:text-gray-300 text-sm flex items-center gap-2">${ICONS.users} Data Siswa</h3>
+          <div class="flex gap-2">
+            <input id="filter-student" type="text" placeholder="🔍 Cari nama/sekolah..." oninput="filterStudentsTable()" class="input-modern text-xs max-w-[200px]" />
+            <button onclick="loadStudentsData()" class="btn-ghost text-xs">🔄 Muat Ulang</button>
+          </div>
+        </div>
+        <div id="students-list"><p class="text-gray-400 text-sm">Memuat data...</p></div>
+      </div>
+    </div>
+  `;
 }
 
 async function loadStudentsData() {
+  const container = document.getElementById('students-list');
+  if (!container) return;
+  container.innerHTML = '<p class="text-gray-400 text-sm">⏳ Memuat...</p>';
   try {
-    const { data, error } = await sb.from('exam_results').select('student_name, school, branch, exam_title, score, cheating_count, submitted_at').order('submitted_at', { ascending: false });
+    const { data, error } = await sb.from('exam_results')
+      .select('id, student_name, school, branch, exam_title, score, correct_answers, total_questions, cheating_count, submitted_at, duration_seconds, answers')
+      .order('submitted_at', { ascending: false });
     if (error) throw error;
-    const container = document.getElementById('students-list');
-    if (!data || data.length === 0) { container.innerHTML = `<p class="text-gray-500 dark:text-gray-400 text-center py-4 text-sm">Belum ada siswa</p>`; return; }
-    container.innerHTML = `<div class="overflow-x-auto"><table class="table-modern w-full text-sm"><thead><tr class="bg-gray-50 dark:bg-gray-700"><th class="text-[10px] p-2 text-left">No</th><th class="text-[10px] p-2 text-left">Nama</th><th class="text-[10px] p-2 text-left">Sekolah</th><th class="text-[10px] p-2 text-left">Ujian</th><th class="text-center text-[10px] p-2">Nilai</th><th class="text-center text-[10px] p-2">Pelanggaran</th><th class="text-[10px] p-2">Waktu</th></tr></thead><tbody>${data.map((s, i) => `<tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50"><td class="p-2 text-sm">${i+1}</td><td class="p-2 font-semibold dark:text-white text-sm">${s.student_name}</td><td class="p-2 text-sm">${s.school || '-'}</td><td class="p-2 text-sm">${s.exam_title}</td><td class="p-2 text-center"><span class="badge ${s.score >= 70 ? 'badge-green' : 'badge-red'} text-sm font-bold">${s.score}%</span></td><td class="p-2 text-center">${s.cheating_count > 0 ? `<span class="badge badge-red">${s.cheating_count}x</span>` : `<span class="text-gray-400 text-sm">0x</span>`}</td><td class="p-2 text-[10px] text-gray-500">${new Date(s.submitted_at).toLocaleString('id-ID')}</td></tr>`).join('')}</tbody></table></div>`;
-  } catch (err) { document.getElementById('students-list').innerHTML = `<p class="text-red-500 text-sm">${err.message}</p>`; }
+    window._studentsCache = data || [];
+    if (!data || data.length === 0) {
+      container.innerHTML = `<p class="text-gray-500 dark:text-gray-400 text-center py-4 text-sm">Belum ada siswa</p>`;
+      return;
+    }
+    filterStudentsTable();
+  } catch (err) {
+    container.innerHTML = `<p class="text-red-500 text-sm">❌ ${err.message}</p>`;
+  }
 }
 
+function filterStudentsTable() {
+  const container = document.getElementById('students-list');
+  if (!container) return;
+  const filter = (document.getElementById('filter-student')?.value || '').toLowerCase();
+  const data = (window._studentsCache || []).filter(s =>
+    (s.student_name || '').toLowerCase().includes(filter) ||
+    (s.school || '').toLowerCase().includes(filter) ||
+    (s.exam_title || '').toLowerCase().includes(filter)
+  );
+  if (data.length === 0) {
+    container.innerHTML = `<p class="text-gray-400 text-center py-4 text-sm">Tidak ada data yang cocok</p>`;
+    return;
+  }
+  container.innerHTML = `<div class="overflow-x-auto"><table class="table-modern w-full">
+    <thead><tr>
+      <th>No</th><th>Nama</th><th>Sekolah</th><th>Ujian</th>
+      <th class="text-center">Benar</th><th class="text-center">Nilai</th>
+      <th class="text-center">Pelanggaran</th><th>Waktu</th><th class="text-center">Aksi</th>
+    </tr></thead>
+    <tbody>
+      ${data.map((s, i) => `
+        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+          <td>${i+1}</td>
+          <td class="font-semibold dark:text-white">${s.student_name}</td>
+          <td>${s.school || '-'}</td>
+          <td class="text-xs">${s.exam_title}</td>
+          <td class="text-center">${s.correct_answers}/${s.total_questions}</td>
+          <td class="text-center"><span class="badge ${s.score >= 70 ? 'badge-green' : 'badge-red'} font-bold">${s.score}%</span></td>
+          <td class="text-center">${s.cheating_count > 0 ? `<span class="badge badge-red">${s.cheating_count}x</span>` : `<span class="text-gray-400">0</span>`}</td>
+          <td class="text-[10px] text-gray-500">${new Date(s.submitted_at).toLocaleString('id-ID')}</td>
+          <td class="text-center"><button onclick="lihatDetail(${s.id})" class="btn-ghost text-xs py-0.5 px-2">${ICONS.eye}</button></td>
+        </tr>
+      `).join('')}
+    </tbody></table></div>
+    <p class="text-xs text-gray-500 mt-2">Total: ${data.length} siswa</p>`;
+}
+
+function lihatDetail(id) {
+  const d = (window._studentsCache || []).find(x => x.id === id);
+  if (!d) return;
+  const answers = d.answers || {};
+  const answersText = Object.entries(answers)
+    .map(([qid, ans]) => `Soal ${qid}: [${Array.isArray(ans) ? ans.join(', ') : ans}]`)
+    .join('\n');
+  alert(
+    `👤 ${d.student_name}\n` +
+    `🏫 ${d.school} - ${d.branch}\n` +
+    `📚 ${d.exam_title}\n\n` +
+    `✅ Benar: ${d.correct_answers}/${d.total_questions}\n` +
+    `📊 Nilai: ${d.score}\n` +
+    `⚠️ Pelanggaran: ${d.cheating_count || 0}\n` +
+    `⏱️ Durasi: ${d.duration_seconds || 0} detik\n` +
+    `📅 Submit: ${new Date(d.submitted_at).toLocaleString('id-ID')}\n\n` +
+    `📝 Jawaban:\n${answersText || '(tidak tersedia)'}`
+  );
+}
+
+// ==========================================
+// ADMIN - SETTINGS
+// ==========================================
 function renderSettings() {
   return `
-    <div class="space-y-4">
-      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 space-y-3 border border-gray-100 dark:border-gray-700 max-w-2xl">
-        <div><label class="block text-[10px] font-semibold text-gray-700 dark:text-gray-300 mb-0.5">Nama Sekolah</label><input id="set-school-name" type="text" value="${state.settings.schoolName}" class="input-modern" /></div>
-        <div><label class="block text-[10px] font-semibold text-gray-700 dark:text-gray-300 mb-0.5">Alamat Sekolah</label><input id="set-school-address" type="text" value="${state.settings.schoolAddress}" class="input-modern" /></div>
-        <div><label class="block text-[10px] font-semibold text-gray-700 dark:text-gray-300 mb-0.5">Logo</label>
-          <div class="flex items-center gap-2">
+    <div class="space-y-4 animate-fadeInUp">
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-5 space-y-3 border border-gray-100 dark:border-gray-700 max-w-2xl">
+        <h3 class="font-bold text-gray-700 dark:text-gray-300 text-sm flex items-center gap-2 mb-2">${ICONS.settings} Pengaturan Aplikasi</h3>
+        <div>
+          <label class="block text-[10px] font-semibold text-gray-700 dark:text-gray-300 mb-0.5">Nama Sekolah</label>
+          <input id="set-school-name" type="text" value="${state.settings.schoolName}" class="input-modern" />
+        </div>
+        <div>
+          <label class="block text-[10px] font-semibold text-gray-700 dark:text-gray-300 mb-0.5">Alamat Sekolah</label>
+          <input id="set-school-address" type="text" value="${state.settings.schoolAddress}" class="input-modern" />
+        </div>
+        <div>
+          <label class="block text-[10px] font-semibold text-gray-700 dark:text-gray-300 mb-1">Logo Sekolah</label>
+          <div class="flex items-center gap-2 flex-wrap">
             <input type="file" id="set-logo" accept="image/*" onchange="uploadLogo(event)" class="text-[10px]" style="display:none;" />
-            <button onclick="document.getElementById('set-logo').click()" class="btn-ghost text-xs">${ICONS.upload} Upload</button>
+            <button onclick="document.getElementById('set-logo').click()" class="btn-ghost text-xs">${ICONS.upload} Upload Logo</button>
             ${state.settings.schoolLogo ? `<img src="${state.settings.schoolLogo}" class="h-10 w-10 rounded-xl object-cover border-2" />` : ''}
+            ${state.settings.schoolLogo ? `<button onclick="removeLogo()" class="text-red-500 text-xs">✕ Hapus</button>` : ''}
           </div>
           <input type="hidden" id="set-logo-url" value="${state.settings.schoolLogo || ''}" />
         </div>
-        <div><label class="block text-[10px] font-semibold text-gray-700 dark:text-gray-300 mb-1">Warna Utama</label>
+        <div>
+          <label class="block text-[10px] font-semibold text-gray-700 dark:text-gray-300 mb-1">Warna Utama</label>
           <div class="flex gap-2 flex-wrap items-center">
             ${COLORS.map(c => `<div class="color-option ${state.settings.primaryColor === c ? 'active' : ''}" style="background: ${c}" onclick="setPrimaryColor('${c}')"></div>`).join('')}
             <input type="color" id="set-color" value="${state.settings.primaryColor}" onchange="setPrimaryColor(this.value)" class="w-8 h-8 rounded-lg border-2 cursor-pointer" />
           </div>
         </div>
-        <button onclick="saveSettings()" class="btn-primary w-full text-sm">${ICONS.save} Simpan Setting</button>
+        <button onclick="saveSettings()" class="btn-primary w-full text-sm mt-2">${ICONS.save} Simpan Setting</button>
+      </div>
+
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-5 border border-gray-100 dark:border-gray-700 max-w-2xl">
+        <h3 class="font-bold text-gray-700 dark:text-gray-300 text-sm flex items-center gap-2 mb-2">${ICONS.lock} Admin Credentials</h3>
+        <div class="p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-lg">
+          <p class="text-[11px] text-amber-800 dark:text-amber-300">
+            ⚠️ Username/Password admin di-hardcode di file ini (const <code>ADMIN_CREDENTIALS</code>).
+            Untuk produksi, ubah di kode sumber atau gunakan Supabase Auth.
+          </p>
+          <p class="text-[10px] text-amber-700 dark:text-amber-400 mt-1">Saat ini: <strong>${ADMIN_CREDENTIALS.username}</strong> / <strong>${ADMIN_CREDENTIALS.password}</strong></p>
+        </div>
       </div>
     </div>
   `;
@@ -1469,10 +1943,15 @@ async function loadSettings() {
     const { data, error } = await sb.from('app_settings').select('*').maybeSingle();
     if (error) return;
     if (data) {
-      state.settings = { schoolName: data.school_name || 'SMA Negeri 1', schoolAddress: data.school_address || 'Jl. Pendidikan No. 1, Jakarta', schoolLogo: data.school_logo || '', primaryColor: data.primary_color || '#2563eb' };
+      state.settings = {
+        schoolName: data.school_name || 'SMA Negeri 1',
+        schoolAddress: data.school_address || 'Jl. Pendidikan No. 1, Jakarta',
+        schoolLogo: data.school_logo || '',
+        primaryColor: data.primary_color || '#2563eb'
+      };
       render();
     }
-  } catch (err) {}
+  } catch (err) { console.warn('loadSettings:', err.message); }
 }
 
 async function saveSettings() {
@@ -1480,11 +1959,20 @@ async function saveSettings() {
   const schoolAddress = document.getElementById('set-school-address').value.trim();
   const schoolLogo = document.getElementById('set-logo-url').value;
   if (!schoolName) { showToast('Nama sekolah wajib!', 'warning'); return; }
-  state.settings.schoolName = schoolName; state.settings.schoolAddress = schoolAddress; state.settings.schoolLogo = schoolLogo;
+  state.settings.schoolName = schoolName;
+  state.settings.schoolAddress = schoolAddress;
+  state.settings.schoolLogo = schoolLogo;
   try {
-    const { error } = await sb.from('app_settings').upsert({ school_name: schoolName, school_address: schoolAddress, school_logo: schoolLogo, primary_color: state.settings.primaryColor, updated_at: new Date().toISOString() });
+    const { error } = await sb.from('app_settings').upsert({
+      id: 1,
+      school_name: schoolName,
+      school_address: schoolAddress,
+      school_logo: schoolLogo,
+      primary_color: state.settings.primaryColor,
+      updated_at: new Date().toISOString()
+    });
     if (error) throw error;
-    showToast('Setting disimpan!', 'success');
+    showToast('✅ Setting disimpan!', 'success');
     render();
   } catch (err) { showToast('Gagal simpan: ' + err.message, 'error'); }
 }
@@ -1492,39 +1980,57 @@ async function saveSettings() {
 function setPrimaryColor(color) {
   state.settings.primaryColor = color;
   document.querySelectorAll('.color-option').forEach(el => el.classList.toggle('active', el.style.background === color));
-  const colorInput = document.getElementById('set-color'); if (colorInput) colorInput.value = color;
+  const colorInput = document.getElementById('set-color');
+  if (colorInput) colorInput.value = color;
 }
 
 async function uploadLogo(event) {
   const file = event.target.files[0]; if (!file) return;
   try {
-    const { data, error } = await sb.storage.from('exam-images').upload(`settings/logo_${Date.now()}_${file.name}`, file);
+    const cleanName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+    const { data, error } = await sb.storage.from('exam-images').upload(`settings/logo_${Date.now()}_${cleanName}`, file, { cacheControl: '3600', upsert: false });
     if (error) throw error;
     const { data: urlData } = sb.storage.from('exam-images').getPublicUrl(data.path);
     document.getElementById('set-logo-url').value = urlData.publicUrl;
-    showToast('Logo diupload!', 'success');
-    loadSettings();
+    showToast('✅ Logo diupload!', 'success');
+    await loadSettings();
   } catch (err) { showToast('Gagal upload: ' + err.message, 'error'); }
 }
 
+function removeLogo() {
+  state.settings.schoolLogo = '';
+  const urlInput = document.getElementById('set-logo-url');
+  if (urlInput) urlInput.value = '';
+  render();
+  showToast('Logo dihapus (klik Simpan untuk konfirmasi)', 'info');
+}
+
+// ==========================================
+// ADMIN - VIEW CBT
+// ==========================================
 function renderViewCBT() {
   return `
-    <div class="space-y-4">
-      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-5 border border-gray-100 dark:border-gray-700 text-center max-w-lg">
-        <div class="w-12 h-12 mx-auto rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center mb-3 shadow-lg">
-          <span class="text-white" style="display: inline-flex; width: 24px; height: 24px;">${ICONS.eye}</span>
+    <div class="space-y-4 animate-fadeInUp">
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-6 border border-gray-100 dark:border-gray-700 text-center max-w-lg mx-auto">
+        <div class="w-14 h-14 mx-auto rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center mb-3 shadow-lg">
+          <span class="text-white" style="display: inline-flex; width: 28px; height: 28px;">${ICONS.eye}</span>
         </div>
-        <p class="text-gray-600 dark:text-gray-300 text-sm mb-4">Klik tombol untuk melihat halaman login siswa.</p>
-        <button onclick="goToViewCBT()" class="btn-primary text-sm">${ICONS.externalLink} Buka CBT</button>
+        <h3 class="font-bold text-gray-800 dark:text-white text-base mb-1">Pratinjau Halaman Siswa</h3>
+        <p class="text-gray-600 dark:text-gray-300 text-xs mb-4">Lihat tampilan login siswa (token input) tanpa logout dari admin.</p>
+        <button onclick="goToViewCBT()" class="btn-primary text-sm">${ICONS.externalLink} Buka Halaman Login Siswa</button>
       </div>
     </div>
   `;
 }
 
-function goToViewCBT() { sessionStorage.setItem('fromAdmin', 'true'); state.view = 'login'; render(); }
+function goToViewCBT() {
+  sessionStorage.setItem('fromAdmin', 'true');
+  state.view = 'login';
+  render();
+}
 
 // ==========================================
-// ADMIN - EXPORT EXCEL
+// EXPORT EXCEL (Dashboard)
 // ==========================================
 async function exportToExcel() {
   try {
@@ -1532,258 +2038,47 @@ async function exportToExcel() {
     if (error) throw error;
     if (!data || data.length === 0) { showToast('Tidak ada data!', 'warning'); return; }
     const wb = XLSX.utils.book_new();
-    const rows = [['No', 'Nama', 'Sekolah', 'Kota/Kab', 'Ujian', 'Benar', 'Total', 'Nilai', 'Pelanggaran', 'Waktu']];
-    data.forEach((r, i) => rows.push([i + 1, r.student_name, r.school || '-', r.branch || '-', r.exam_title, r.correct_answers, r.total_questions, r.score + '%', r.cheating_count || 0, new Date(r.submitted_at).toLocaleString('id-ID')]));
+    const rows = [['No', 'Nama', 'Sekolah', 'Kota/Kab', 'Ujian', 'Benar', 'Total', 'Nilai', 'Pelanggaran', 'Durasi (detik)', 'Waktu Submit']];
+    data.forEach((r, i) => rows.push([
+      i + 1, r.student_name, r.school || '-', r.branch || '-', r.exam_title,
+      r.correct_answers, r.total_questions, r.score + '%', r.cheating_count || 0,
+      r.duration_seconds || 0, new Date(r.submitted_at).toLocaleString('id-ID')
+    ]));
     const ws = XLSX.utils.aoa_to_sheet(rows);
-    ws['!cols'] = [{ wch: 5 }, { wch: 20 }, { wch: 25 }, { wch: 15 }, { wch: 30 }, { wch: 8 }, { wch: 8 }, { wch: 10 }, { wch: 12 }, { wch: 20 }];
+    ws['!cols'] = [{ wch: 5 }, { wch: 20 }, { wch: 25 }, { wch: 15 }, { wch: 30 }, { wch: 8 }, { wch: 8 }, { wch: 10 }, { wch: 12 }, { wch: 15 }, { wch: 20 }];
     XLSX.utils.book_append_sheet(wb, ws, 'Hasil Ujian');
     XLSX.writeFile(wb, `laporan_ujian_${new Date().toISOString().split('T')[0]}.xlsx`);
-    showToast(`Berhasil export ${data.length} data!`, 'success');
+    showToast(`✅ Berhasil export ${data.length} data!`, 'success');
   } catch (err) { showToast('Gagal export: ' + err.message, 'error'); }
-}
-
-// ==========================================
-// FUNGSI PENDUKUNG BUAT SOAL
-// ==========================================
-function addOption() { state.optionCount++; updateOptionsByType(); }
-function removeOption() { if (state.optionCount <= 2) return; state.optionCount--; updateOptionsByType(); }
-
-function updateOptionsByType() {
-  const type = document.getElementById('f-tipe-soal')?.value || 'PG';
-  const container = document.getElementById('options-container');
-  const correctContainer = document.getElementById('correct-options');
-  if (!container || !correctContainer) return;
-
-  let optionCount = state.optionCount;
-  let optionLabels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
-  let isMultiSelect = false;
-
-  switch(type) {
-    case 'PG': optionCount = Math.max(optionCount, 4); isMultiSelect = false; break;
-    case 'PG5': optionCount = Math.max(optionCount, 5); isMultiSelect = false; break;
-    case 'PGK': optionCount = Math.max(optionCount, 4); isMultiSelect = true; break;
-    case 'BS': optionCount = 2; optionLabels = ['Benar', 'Salah']; isMultiSelect = false; break;
-    case 'BSK': optionCount = 2; optionLabels = ['Benar', 'Salah']; isMultiSelect = true; break;
-    case 'ST': optionCount = 2; optionLabels = ['Setuju', 'Tidak Setuju']; isMultiSelect = true; break;
-    default: optionCount = Math.max(optionCount, 4); isMultiSelect = false;
-  }
-  state.optionCount = optionCount;
-
-  let optionsHTML = '';
-  for (let i = 0; i < optionCount; i++) {
-    const label = optionLabels[i] || String.fromCharCode(65 + i);
-    const imageUrl = state.optionImages[i] || '';
-    optionsHTML += `
-      <div class="option-input p-2 bg-gray-50 dark:bg-gray-700/30 rounded-lg border border-gray-100 dark:border-gray-700">
-        <span class="font-bold text-xs w-5 text-gray-700 dark:text-gray-300">${label}.</span>
-        <input type="text" id="opt-${i}" placeholder="Teks opsi ${label}" class="flex-1 bg-transparent border-0 focus:ring-0 text-gray-700 dark:text-gray-300 text-sm" />
-        <div class="option-image-upload flex items-center gap-1">
-          <input type="file" id="opt-img-${i}" accept="image/*" onchange="uploadOptionImage(${i}, this)" class="text-[9px] text-gray-500" />
-          ${imageUrl ? `<img src="${imageUrl}" class="preview-thumb" id="opt-preview-${i}" />` : `<div id="opt-preview-${i}" class="w-7 h-7 rounded-lg border border-gray-200 dark:border-gray-600 flex items-center justify-center text-[9px] text-gray-400">Prev</div>`}
-          ${imageUrl ? `<button onclick="removeOptionImage(${i})" class="text-red-500 text-[9px]">✕</button>` : ''}
-          <input type="hidden" id="opt-image-url-${i}" value="${imageUrl}" />
-        </div>
-        ${isMultiSelect ? `<input type="checkbox" id="correct-${i}" class="correct-checkbox accent-blue-600" />` : ''}
-        ${!isMultiSelect ? `<input type="radio" name="correct-answer" value="${i}" class="correct-radio accent-blue-600" />` : ''}
-        ${i >= 4 ? `<span class="remove-option" onclick="removeOption()">✕</span>` : ''}
-      </div>
-    `;
-  }
-  container.innerHTML = optionsHTML;
-
-  let correctHTML = '';
-  if (isMultiSelect) {
-    correctHTML = `<p class="text-[9px] text-gray-500">* Centang kotak di samping opsi (bisa >1)</p>`;
-  } else {
-    for (let i = 0; i < optionCount; i++) {
-      const label = optionLabels[i] || String.fromCharCode(65 + i);
-      correctHTML += `<label class="flex items-center gap-1 text-xs text-gray-700 dark:text-gray-300"><input type="radio" name="correct-answer" value="${i}" class="accent-blue-600" /> ${label}</label>`;
-    }
-  }
-  correctContainer.innerHTML = correctHTML;
-
-  if (isMultiSelect) {
-    document.querySelectorAll('.correct-checkbox').forEach((cb, i) => {
-      cb.addEventListener('change', function() {
-        const optInput = document.getElementById(`opt-${i}`);
-        if (this.checked) { optInput.style.borderColor = '#10b981'; optInput.style.backgroundColor = 'rgba(16,185,129,0.05)'; } 
-        else { optInput.style.borderColor = ''; optInput.style.backgroundColor = ''; }
-      });
-    });
-  }
-}
-
-async function uploadOptionImage(index, input) {
-  const file = input.files[0]; if (!file) return;
-  const preview = document.getElementById(`opt-preview-${index}`);
-  try {
-    const { data, error } = await sb.storage.from('exam-images').upload(`options/option_${Date.now()}_${file.name}`, file);
-    if (error) throw error;
-    const { data: urlData } = sb.storage.from('exam-images').getPublicUrl(data.path);
-    state.optionImages[index] = urlData.publicUrl;
-    document.getElementById(`opt-image-url-${index}`).value = urlData.publicUrl;
-    if (preview) preview.innerHTML = `<img src="${urlData.publicUrl}" class="preview-thumb" />`;
-    showToast('Gambar opsi diupload!', 'success');
-  } catch (err) { showToast('Gagal upload: ' + err.message, 'error'); }
-}
-
-function removeOptionImage(index) {
-  state.optionImages[index] = null;
-  document.getElementById(`opt-image-url-${index}`).value = '';
-  const preview = document.getElementById(`opt-preview-${index}`);
-  if (preview) preview.innerHTML = 'Prev';
-}
-
-function previewImage(event) {
-  const file = event.target.files[0]; if (!file) return;
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    document.getElementById('image-preview').src = e.target.result;
-    document.getElementById('image-preview-container').classList.remove('hidden');
-    state.imageData = e.target.result;
-  };
-  reader.readAsDataURL(file);
-}
-
-function uploadImage() {
-  const fileInput = document.getElementById('f-image');
-  const linkInput = document.getElementById('f-image-link');
-  let imageUrl = '';
-  if (fileInput && fileInput.files && fileInput.files.length > 0) {
-    const file = fileInput.files[0];
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      imageUrl = e.target.result;
-      document.getElementById('f-image-url').value = imageUrl;
-      document.getElementById('image-preview').src = imageUrl;
-      document.getElementById('image-preview-container').classList.remove('hidden');
-      showToast('Gambar siap!', 'success');
-    };
-    reader.readAsDataURL(file);
-  } else if (linkInput && linkInput.value.trim()) {
-    imageUrl = linkInput.value.trim();
-    document.getElementById('f-image-url').value = imageUrl;
-    document.getElementById('image-preview').src = imageUrl;
-    document.getElementById('image-preview-container').classList.remove('hidden');
-    showToast('Gambar dari link siap!', 'success');
-  } else {
-    showToast('Pilih gambar atau link!', 'warning');
-  }
-}
-
-function removeImage() {
-  state.imageData = null;
-  document.getElementById('image-preview-container').classList.add('hidden');
-  document.getElementById('f-image').value = '';
-  document.getElementById('f-image-link').value = '';
-  document.getElementById('f-image-url').value = '';
-}
-
-function addQuestion() { state.currentQuestionNumber++; render(); }
-function removeQuestion() { if (state.currentQuestionNumber <= 1) return; state.currentQuestionNumber--; render(); }
-
-function addQuestionToList() {
-  const teks = document.getElementById('f-teks').value.trim();
-  if (!teks) { showToast('Teks soal wajib!', 'warning'); return; }
-
-  const type = document.getElementById('f-tipe-soal').value;
-  const narasi = document.getElementById('f-narasi')?.value.trim() || null;
-  const imageUrl = document.getElementById('f-image-url')?.value || null;
-  const videoLink = document.getElementById('f-video-link')?.value.trim() || null;
-  
-  let videoEmbed = null;
-  if (videoLink) {
-    const match = videoLink.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\?]+)/);
-    if (match) { videoEmbed = `https://www.youtube.com/embed/${match[1]}`; }
-  }
-
-  const options = [];
-  for (let i = 0; i < state.optionCount; i++) {
-    const text = document.getElementById(`opt-${i}`)?.value.trim();
-    const image = document.getElementById(`opt-image-url-${i}`)?.value || null;
-    if (text) options.push({ text, image });
-  }
-  if (options.length < 2) { showToast('Minimal 2 opsi!', 'warning'); return; }
-
-  let correctAnswers = [];
-  const isMultiSelect = ['PGK', 'BSK', 'ST'].includes(type);
-  if (isMultiSelect) {
-    document.querySelectorAll('.correct-checkbox').forEach((cb, i) => { if (cb.checked) correctAnswers.push(i); });
-  } else {
-    const radio = document.querySelector('input[name="correct-answer"]:checked');
-    if (radio) correctAnswers.push(parseInt(radio.value));
-  }
-  if (correctAnswers.length === 0) { showToast('Pilih jawaban benar!', 'warning'); return; }
-
-  state.adminQuestions.push({ 
-    id: state.adminQuestions.length + 1, 
-    text: teks, 
-    narasi, 
-    image: imageUrl,
-    video: videoEmbed,
-    options, 
-    type, 
-    answer: correctAnswers 
-  });
-  state.currentQuestionNumber = state.adminQuestions.length + 1;
-  
-  document.getElementById('f-teks').value = '';
-  if (document.getElementById('f-narasi')) document.getElementById('f-narasi').value = '';
-  document.getElementById('f-image-url').value = '';
-  document.getElementById('f-image-link').value = '';
-  document.getElementById('f-video-link').value = '';
-  document.getElementById('image-preview-container').classList.add('hidden');
-  document.getElementById('f-image').value = '';
-  state.imageData = null;
-  state.optionImages = {};
-  render();
-  showToast(`Soal #${state.adminQuestions.length} ditambahkan!`, 'success');
-}
-
-function removeQuestionFromList(index) {
-  if (!confirm('Hapus soal ini?')) return;
-  state.adminQuestions.splice(index, 1);
-  state.adminQuestions.forEach((q, i) => q.id = i + 1);
-  render();
-}
-
-async function saveAllQuestions() {
-  const mapel = document.getElementById('f-mapel').value.trim();
-  const kelas = document.getElementById('f-kelas').value.trim();
-  const tipe = document.getElementById('f-tipe').value;
-  const judul = document.getElementById('f-judul').value.trim();
-  const durasi = parseInt(document.getElementById('f-durasi').value) || 3600;
-
-  if (!mapel) { showToast('Isi Mapel!', 'warning'); document.getElementById('f-mapel').focus(); return; }
-  if (!judul) { showToast('Isi Judul Tes!', 'warning'); document.getElementById('f-judul').focus(); return; }
-  if (state.adminQuestions.length === 0) { showToast('Tambah soal dulu!', 'warning'); return; }
-
-  try {
-    const { error } = await sb.from('question_banks').insert([{ mapel, kelas, tipe_tes: tipe, judul_tes: judul, durasi, questions: state.adminQuestions, created_at: new Date().toISOString() }]);
-    if (error) throw error;
-    showToast(`Berhasil menyimpan ${state.adminQuestions.length} soal!`, 'success');
-    state.adminQuestions = [];
-    state.currentQuestionNumber = 1;
-    document.getElementById('f-mapel').value = '';
-    document.getElementById('f-kelas').value = '';
-    document.getElementById('f-judul').value = '';
-    render();
-  } catch (err) { showToast('Gagal simpan: ' + err.message, 'error'); }
 }
 
 // ==========================================
 // LOGOUT
 // ==========================================
-function logout() { state.view = 'login'; state.exam = null; state.result = null; history.pushState(null, '', window.location.pathname); render(); }
+function logout() {
+  if (!confirm('Logout dari admin?')) return;
+  state.adminAuthed = false;
+  sessionStorage.removeItem('adminAuthed');
+  sessionStorage.removeItem('fromAdmin');
+  state.view = 'login';
+  state.exam = null;
+  state.result = null;
+  history.pushState(null, '', window.location.pathname);
+  render();
+}
 
 // ==========================================
 // START
 // ==========================================
 checkHash();
-render();
+if (state.view === 'login' && !state.adminAuthed) {
+  render();
+} else if (state.adminAuthed && window.location.hash === '#admin') {
+  goToAdmin();
+}
 
 // ==========================================
-// EXPOSE FUNCTIONS KE GLOBAL
+// EXPOSE FUNCTIONS KE GLOBAL (untuk onclick di HTML)
 // ==========================================
 window.toggleSidebar = toggleSidebar;
 window.closeSidebar = closeSidebar;
@@ -1796,9 +2091,12 @@ window.toggleDarkMode = toggleDarkMode;
 window.setPrimaryColor = setPrimaryColor;
 window.saveSettings = saveSettings;
 window.uploadLogo = uploadLogo;
+window.removeLogo = removeLogo;
 window.handleLogin = handleLogin;
 window.backToLogin = backToLogin;
 window.backToAdminFromLogin = backToAdminFromLogin;
+window.handleAdminLogin = handleAdminLogin;
+window.cancelAdminLogin = cancelAdminLogin;
 window.confirmSubmit = confirmSubmit;
 window.selectAnswer = selectAnswer;
 window.toggleAnswer = toggleAnswer;
@@ -1823,7 +2121,17 @@ window.handleExcelFile = handleExcelFile;
 window.importFromExcel = importFromExcel;
 window.clearExcelData = clearExcelData;
 window.downloadTemplate = downloadTemplate;
-</script>
+window.editExam = editExam;
+window.saveEditedExam = saveEditedExam;
+window.cancelEdit = cancelEdit;
+window.deleteExam = deleteExam;
+window.loadExamsData = loadExamsData;
+window.loadCheatersData = loadCheatersData;
+window.loadStudentsData = loadStudentsData;
+window.filterStudentsTable = filterStudentsTable;
+window.lihatDetail = lihatDetail;
 
+console.log('✅ CBT App loaded. Admin: tambah #admin di URL');
+</script>
 </body>
 </html>
