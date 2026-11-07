@@ -1140,18 +1140,23 @@ function renderCreateForm() {
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm p-4 border border-gray-100 dark:border-gray-700">
           <h3 class="font-bold text-gray-700 dark:text-gray-300 mb-2.5 flex items-center gap-2 text-sm">${ICONS.bookOpen} Daftar Soal (${totalQuestions})</h3>
           <div id="question-list" class="space-y-1.5 max-h-48 overflow-y-auto">
-            ${totalQuestions === 0 ? '<p class="text-gray-400 text-xs">Belum ada soal</p>' :
-              state.adminQuestions.map((q, i) => `
-                <div class="flex justify-between items-center bg-gray-50 dark:bg-gray-700/50 p-2 rounded-lg border border-gray-100 dark:border-gray-700">
-                  <div class="flex items-center gap-2 flex-wrap">
-                    <span class="badge badge-blue text-[9px]">#${i+1}</span>
-                    <span class="text-xs text-gray-700 dark:text-gray-300">${q.text.substring(0, 40)}${q.text.length > 40 ? '...' : ''}</span>
-                    <span class="badge badge-purple text-[9px]">${q.type}</span>
-                  </div>
-                  <button onclick="removeQuestionFromList(${i})" class="text-red-500 hover:text-red-700 text-xs font-bold">✕</button>
-                </div>
-              `).join('')}
-          </div>
+  ${totalQuestions === 0 ? '<p class="text-gray-400 text-xs">Belum ada soal</p>' :
+    state.adminQuestions.map((q, i) => `
+      <div class="flex justify-between items-center bg-gray-50 dark:bg-gray-700/50 p-2 rounded-lg border border-gray-100 dark:border-gray-700">
+        <div class="flex items-center gap-2 flex-wrap">
+          <span class="badge badge-blue text-[9px]">#${i+1}</span>
+          <span class="text-xs text-gray-700 dark:text-gray-300">${(q.text || '').substring(0, 40)}${(q.text || '').length > 40 ? '...' : ''}</span>
+          <span class="badge badge-purple text-[9px]">${q.type}</span>
+          ${q.image ? `<span class="text-[9px]" title="Ada gambar soal">📷</span>` : ''}
+          ${q.video ? `<span class="text-[9px]" title="Ada video">🎬</span>` : ''}
+        </div>
+        <div class="flex items-center gap-1">
+          <button onclick="editQuestionFromList(${i})" class="text-blue-600 hover:text-blue-800 text-xs font-bold px-1" title="Edit soal">✏️</button>
+          <button onclick="removeQuestionFromList(${i})" class="text-red-500 hover:text-red-700 text-xs font-bold" title="Hapus soal">✕</button>
+        </div>
+      </div>
+    `).join('')}
+</div>
           <button onclick="saveAllQuestions()" class="btn-success w-full mt-3 text-sm py-2">${ICONS.save} ${state.editingExamId ? 'Simpan Perubahan' : `Simpan Semua (${totalQuestions} soal)`}</button>
           ${state.editingExamId ? `<button onclick="cancelEdit()" class="btn-ghost w-full mt-2 text-sm py-2">Batal Edit</button>` : ''}
         </div>
@@ -1477,6 +1482,106 @@ function removeQuestionFromList(index) {
   state.adminQuestions.splice(index, 1);
   state.adminQuestions.forEach((q, i) => q.id = i + 1);
   render();
+}
+
+// ==========================================
+// EDIT SOAL DARI DAFTAR (untuk soal hasil Excel import)
+// ==========================================
+function editQuestionFromList(index) {
+  const q = state.adminQuestions[index];
+  if (!q) return;
+
+  // Set mode edit
+  state.editingQuestionIndex = index;
+  state.currentQuestionNumber = index + 1;
+
+  // Re-render form (biar input kosong)
+  render();
+
+  // Tunggu DOM siap, lalu isi form dengan data soal lama
+  setTimeout(() => {
+    // 1. Isi teks soal
+    const fTeks = document.getElementById('f-teks');
+    if (fTeks) fTeks.value = q.text || '';
+
+    // 2. Set tipe soal
+    const fTipeSoal = document.getElementById('f-tipe-soal');
+    if (fTipeSoal) fTipeSoal.value = q.type || 'PG';
+
+    // 3. Narasi
+    const fNarasi = document.getElementById('f-narasi');
+    const fPakaiNarasi = document.getElementById('f-pakai-narasi');
+    const narasiContainer = document.getElementById('narasi-container');
+    if (fNarasi) fNarasi.value = q.narasi || '';
+    if (fPakaiNarasi && q.narasi) {
+      fPakaiNarasi.checked = true;
+      if (narasiContainer) narasiContainer.classList.remove('hidden');
+    }
+
+    // 4. Gambar soal
+    if (q.image) {
+      const imgPreview = document.getElementById('image-preview');
+      const imgContainer = document.getElementById('image-preview-container');
+      const imgUrl = document.getElementById('f-image-url');
+      if (imgPreview) imgPreview.src = q.image;
+      if (imgContainer) imgContainer.classList.remove('hidden');
+      if (imgUrl) imgUrl.value = q.image;
+    }
+
+    // 5. Video (extract ID dari embed URL)
+    const fVideoLink = document.getElementById('f-video-link');
+    if (q.video && fVideoLink) {
+      // q.video format: https://www.youtube.com/embed/XXXXX
+      const match = q.video.match(/embed\/([^?]+)/);
+      if (match) {
+        fVideoLink.value = `https://www.youtube.com/watch?v=${match[1]}`;
+      } else {
+        fVideoLink.value = q.video;
+      }
+    }
+
+    // 6. Set optionCount sesuai jumlah opsi soal lama
+    state.optionCount = (q.options || []).length || 4;
+
+    // 7. Rebuild options berdasarkan tipe
+    updateOptionsByType();
+
+    // 8. Isi setiap opsi (teks, gambar, jawaban benar)
+    setTimeout(() => {
+      (q.options || []).forEach((opt, i) => {
+        const optInput = document.getElementById(`opt-${i}`);
+        if (optInput) optInput.value = opt.text || '';
+
+        // Gambar opsi
+        if (opt.image) {
+          const optImgUrl = document.getElementById(`opt-image-url-${i}`);
+          const optPreview = document.getElementById(`opt-preview-${i}`);
+          if (optImgUrl) optImgUrl.value = opt.image;
+          if (optPreview) {
+            optPreview.outerHTML = `<img src="${opt.image}" class="preview-thumb" id="opt-preview-${i}" />`;
+          }
+        }
+      });
+
+      // 9. Set jawaban benar
+      const isMulti = ['PGK', 'BSK', 'ST'].includes(q.type);
+      (q.answer || []).forEach(ansIdx => {
+        if (isMulti) {
+          const cb = document.getElementById(`correct-${ansIdx}`);
+          if (cb) cb.checked = true;
+        } else {
+          const radio = document.querySelector(`input[name="correct-answer"][value="${ansIdx}"]`);
+          if (radio) radio.checked = true;
+        }
+      });
+
+      // 10. Scroll ke form
+      const formEl = document.getElementById('f-teks');
+      if (formEl) formEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+      showToast(`✏️ Mode edit soal #${index + 1} — ubah lalu klik "Tambahkan ke Daftar"`, 'info');
+    }, 100);
+  }, 150);
 }
 
 // ==========================================
@@ -2130,6 +2235,7 @@ window.loadCheatersData = loadCheatersData;
 window.loadStudentsData = loadStudentsData;
 window.filterStudentsTable = filterStudentsTable;
 window.lihatDetail = lihatDetail;
+window.editQuestionFromList = editQuestionFromList;
 
 console.log('✅ CBT App loaded. Admin: tambah #admin di URL');
 </script>
