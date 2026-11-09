@@ -1019,10 +1019,15 @@ function addQuestionToList() {
   const videoLink = document.getElementById('f-video-link')?.value.trim() || null;
   let videoEmbed = null;
   if (videoLink) { const match = videoLink.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\?]+)/); if (match) videoEmbed = `https://www.youtube.com/embed/${match[1]}`; }
-  const options = [];
+   const options = [];
   for (let i = 0; i < state.optionCount; i++) {
     const text = document.getElementById(`opt-${i}`)?.value.trim();
-    const image = document.getElementById(`opt-image-url-${i}`)?.value || null;
+    // PERBAIKAN: Hanya ambil gambar per opsi jika tipenya BUKAN BS/BSK/ST
+    // Karena tipe BS/BSK/ST tidak punya elemen opt-image-url
+    let image = null;
+    if (!['BS', 'BSK', 'ST'].includes(type)) {
+      image = document.getElementById(`opt-image-url-${i}`)?.value || null;
+    }
     if (text) options.push({ text, image });
   }
   if (options.length < 2) { showToast('Minimal 2 opsi!', 'warning'); return; }
@@ -1056,34 +1061,66 @@ function removeQuestionFromList(index) { if (!confirm('Hapus soal ini?')) return
 function editQuestionFromList(index) {
   const q = state.adminQuestions[index]; if (!q) return;
   state.editingQuestionIndex = index; state.currentQuestionNumber = index + 1; render();
+  
   setTimeout(() => {
+    // 1. Set teks soal & tipe soal
     const fTeks = document.getElementById('f-teks'); if (fTeks) fTeks.value = q.text || '';
     const fTipeSoal = document.getElementById('f-tipe-soal'); if (fTipeSoal) fTipeSoal.value = q.type || 'PG';
+    
+    // 2. Set narasi
     const fNarasi = document.getElementById('f-narasi'); const fPakaiNarasi = document.getElementById('f-pakai-narasi'); const narasiContainer = document.getElementById('narasi-container');
     if (fNarasi) fNarasi.value = q.narasi || '';
     if (fPakaiNarasi && q.narasi) { fPakaiNarasi.checked = true; if (narasiContainer) narasiContainer.classList.remove('hidden'); }
+    
+    // 3. Set gambar soal (GAMBAR UTAMA)
     const imgContainer = document.getElementById('image-preview-container'); const imgUrl = document.getElementById('f-image-url'); const imgPreview = document.getElementById('image-preview');
-    if (q.image) { if (imgPreview) imgPreview.src = q.image; if (imgContainer) imgContainer.classList.remove('hidden'); if (imgUrl) imgUrl.value = q.image; } 
-    else { if (imgContainer) imgContainer.classList.add('hidden'); if (imgUrl) imgUrl.value = ''; }
+    if (q.image) { 
+      if (imgPreview) imgPreview.src = q.image; 
+      if (imgContainer) imgContainer.classList.remove('hidden'); 
+      if (imgUrl) imgUrl.value = q.image; 
+    } else { 
+      if (imgContainer) imgContainer.classList.add('hidden'); 
+      if (imgUrl) imgUrl.value = ''; 
+    }
+    
+    // 4. Set video
     const fVideoLink = document.getElementById('f-video-link');
     if (q.video && fVideoLink) { const match = q.video.match(/embed\/([^?]+)/); fVideoLink.value = match ? `https://www.youtube.com/watch?v=${match[1]}` : q.video; }
-    state.optionCount = (q.options || []).length || 4; updateOptionsByType();
+    
+    // 5. Render ulang opsi sesuai tipe soal (INI YANG SEBELUMNYA MENGHAPUS GAMBAR)
+    state.optionCount = (q.options || []).length || 4; 
+    updateOptionsByType();
+    
+    // 6. Setelah opsi dirender, isi teks opsi dan centang jawaban
     setTimeout(() => {
       (q.options || []).forEach((opt, i) => {
-        const optInput = document.getElementById(`opt-${i}`); if (optInput) optInput.value = opt.text || '';
-        if (opt.image) { const optImgUrl = document.getElementById(`opt-image-url-${i}`); const optPreview = document.getElementById(`opt-preview-${i}`); if (optImgUrl) optImgUrl.value = opt.image; if (optPreview) optPreview.outerHTML = `<img src="${opt.image}" class="preview-thumb" id="opt-preview-${i}" />`; }
+        const optInput = document.getElementById(`opt-${i}`); 
+        if (optInput) optInput.value = opt.text || '';
+        
+        // Hanya set gambar per opsi jika tipenya BUKAN BS/BSK/ST
+        if (opt.image && !['BS', 'BSK', 'ST'].includes(q.type)) { 
+          const optImgUrl = document.getElementById(`opt-image-url-${i}`); 
+          const optPreview = document.getElementById(`opt-preview-${i}`); 
+          if (optImgUrl) optImgUrl.value = opt.image; 
+          if (optPreview) optPreview.outerHTML = `<img src="${opt.image}" class="preview-thumb" id="opt-preview-${i}" />`; 
+        }
       });
+      
+      // Set jawaban benar untuk tipe TABEL_BS
       if (q.type === 'TABEL_BS') {
         (q.answer || []).forEach((ansVal, i) => { const radio = document.querySelector(`input[name="tabel-correct-${i}"][value="${ansVal}"]`); if (radio) radio.checked = true; });
       }
+      
+      // Set jawaban benar untuk tipe MultiSelect / Radio biasa
       const isMulti = ['PGK', 'BSK', 'ST'].includes(q.type);
       (q.answer || []).forEach(ansIdx => {
         if (isMulti) { const cb = document.getElementById(`correct-${ansIdx}`); if (cb) cb.checked = true; } 
         else { const radio = document.querySelector(`input[name="correct-answer"][value="${ansIdx}"]`); if (radio) radio.checked = true; }
       });
+      
       const formEl = document.getElementById('f-teks'); if (formEl) formEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
       showToast(`✏️ Mode edit soal #${index + 1}`, 'info');
-    }, 100);
+    }, 150); // Beri jeda 150ms agar DOM selesai render opsi baru
   }, 150);
 }
 
